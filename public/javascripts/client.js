@@ -2,10 +2,11 @@
   "use strict";
 
   var SpotifyRemoteClient = function(host) {
-    this.host                = host || window.location.hostname;
-    this.elements            = [];
-    this._canTouchThis       = 'ontouchstart' in window || 'createTouch' in d;
-    this._volumeRangeBlocked = false;
+    this.host                  = host || window.location.hostname;
+    this.elements              = [];
+    this._canTouchThis         = 'ontouchstart' in window || 'createTouch' in d;
+    this._volumeRangeBlocked   = false;
+    this._positionRangeBlocked = false;
   };
 
   SpotifyRemoteClient.prototype.init = function(io, container) {
@@ -52,6 +53,7 @@
       false
     );
 
+    // volume control
     this.$('current-volume').addEventListener(
       'change',
       function(event) {
@@ -75,6 +77,24 @@
       }.bind(this),
       false
     );
+
+    // position control
+    this.$('position').addEventListener(
+      this._canTouchThis ? 'touchstart' : 'mousedown',
+      function() {
+        this._positionRangeBlocked = true;
+      }.bind(this),
+      false
+    );
+
+    this.$('position').addEventListener(
+      this._canTouchThis ? 'touchend' : 'mouseup',
+      function(event) {
+        this.socket.emit('jumpTo', event.target.value);
+        this._positionRangeBlocked = false;
+      }.bind(this),
+      false
+    );
   };
 
   SpotifyRemoteClient.prototype.showCurrentTrack = function(track) {
@@ -83,17 +103,21 @@
       return;
     }
 
-    this.currentTrack = track;
     this.$('artist').innerText   = track.artist;
     this.$('name').innerText     = track.name;
     this.$('duration').innerText = formatTime(track.duration);
+    this.$('position').setAttribute('max', track.duration);
+
+    this.currentTrack = track;
   };
 
   SpotifyRemoteClient.prototype.showCurrentState = function(state) {
     if (!this.currentState || this.currentState.position !== state.position) {
-      var position = parseInt(state.position, 10);
+      this.$('played-time').innerText = formatTime(parseInt(state.position, 10));
 
-      this.$('played-time').innerText = formatTime(position);
+      if (!this._positionRangeBlocked) {
+        this.$('position').value = state.position.replace(',', '.');
+      }
     }
 
     if (!this.currentState || this.currentState.state !== state.state) {
