@@ -15,7 +15,6 @@
     this.socket.on('currentArtwork', this.showCurrentArtwork.bind(this));
 
     var body = d.getElementsByTagName('body')[0];
-    var self = this;
 
     body.addEventListener(
       'click',
