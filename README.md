@@ -57,3 +57,7 @@ $ npm test
 ```
 
 If you need any help, don't hesitate to ask!
+
+## License
+
+MIT, see [LICENSE](LICENSE)
