@@ -2,6 +2,7 @@
   "name": "spotify-remote",
   "version": "0.0.1",
   "private": true,
+  "bin": "./app.js",
   "scripts": {
     "start": "node app",
     "test": "./node_modules/.bin/mocha"
