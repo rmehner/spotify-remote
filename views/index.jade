@@ -1,0 +1,27 @@
+doctype 5
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    script(src='/socket.io/socket.io.js')
+  body
+    div#remote-control
+      img#current-track-artwork(width=200,height=200)
+      div#current-track-artist
+      div#current-track-name
+      div
+        span#current-track-played-time
+        span
+          &nbsp;/&nbsp;
+        span#current-track-duration
+
+      a#previous(href='') <<
+      &nbsp;
+      a#current-play-state(href='') Play
+      &nbsp;
+      a#next(href='') >>
+
+
+      div#current-volume
+
+    script(src='/javascripts/client.js')
