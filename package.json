@@ -1,19 +1,44 @@
 {
   "name": "spotify-remote",
+  "preferGlobal": true,
   "version": "0.0.1",
-  "private": true,
+  "description": "Control spotify from your browser",
+  "main": "app.js",
   "bin": "./app.js",
+  "directories": {
+    "test": "test"
+  },
+  "contributors": [
+    {
+       "name": "Thorsten Ball",
+       "email": "mrnugget@gmail.com"
+    }
+  ],
+  "dependencies": {
+    "express": "~3.0.4",
+    "sinon": "~1.5.2",
+    "socket.io": "~0.9.13",
+    "spotify-node-applescript": "git://github.com/rmehner/spotify-node-applescript.git#get_artwork"
+  },
+  "devDependencies": {
+    "mocha": "~1.8.1"
+  },
   "scripts": {
     "start": "node app",
     "test": "./node_modules/.bin/mocha"
   },
-  "dependencies": {
-    "express": "3.0.4",
-    "spotify-node-applescript": "git://github.com/rmehner/spotify-node-applescript.git#get_artwork",
-    "socket.io": "~0.9.13"
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/rmehner/spotify-remote.git"
   },
-  "devDependencies": {
-    "mocha": "~1.8.1",
-    "sinon": "~1.5.2"
+  "keywords": [
+    "spotify",
+    "remote"
+  ],
+  "author": "Robin Mehner <robin@coding-robin.de> (http://coding-robin.de)",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "engines": {
+    "node": ">=0.8"
   }
 }
