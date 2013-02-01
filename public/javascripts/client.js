@@ -2,13 +2,13 @@
   "use strict";
 
   var SpotifyRemoteClient = function(host) {
-    this.host = host || window.location.hostname;
+    this.host     = host || window.location.hostname;
+    this.elements = [];
   };
 
   SpotifyRemoteClient.prototype.init = function(io, container) {
     this.socket    = io.connect(this.host);
     this.container = container;
-    this.elements  = [];
 
     this.socket.on('currentTrack', this.showCurrentTrack.bind(this));
     this.socket.on('currentState', this.showCurrentState.bind(this));
