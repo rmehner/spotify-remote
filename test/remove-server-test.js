@@ -81,12 +81,6 @@ describe('SpotifyRemoteServer', function() {
     });
   });
 
-  describe('#getCurrentTrack', function() {
-    it('does not emit the track to the client if it has not changed since last time', function() {
-      
-    });
-  });
-
   describe('#handleDisconnect', function() {
     it('stops polling spotify when there is no connection', function(done) {
       var server = new SpotifyRemoteServer(io, spotify, {interval: 0});
