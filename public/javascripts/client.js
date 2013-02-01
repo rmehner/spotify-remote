@@ -19,40 +19,34 @@
     body.addEventListener(
       'click',
       function(event) {
-        var idsToFunctions = {
-          'previous': self.playPrevious,
-          'next': self.playNext,
-          'current-play-state': self.playPause
-        };
+        var command = {
+          'previous': 'previous',
+          'next': 'next',
+          'current-play-state': 'playPause'
+        }[event.target.id];
 
-        var id = event.target.id;
-
-        if (id && id in idsToFunctions) {
-          idsToFunctions[id].call(self);
-        }
+        if (command) this._emit(command);
 
         event.preventDefault();
-      },
+      }.bind(this),
       false
     );
 
     body.addEventListener(
       'keyup',
       function(event) {
-        var keyCodesToFunctions = {
-          32: self.playPause, // space
-          78: self.playNext, // n
-          80: self.playPrevious, // p
-          107: self.volumeUp, // + on numpad
-          109: self.volumeDown, // - on numpad
-          187: self.volumeUp, // +
-          189: self.volumeDown // -
-        };
+        var command = {
+          32: 'playPause', // space
+          78: 'next', // n
+          80: 'previous', // p
+          107: 'volumeUp', // + on numpad
+          109: 'volumeDown', // - on numpad
+          187: 'volumeUp', // +
+          189: 'volumeDown' // -
+        }[event.keyCode];
 
-        if (event.keyCode in keyCodesToFunctions) {
-          keyCodesToFunctions[event.keyCode].call(self);
-        }
-      },
+        if (command) this._emit(command);
+      }.bind(this),
       false
     );
   };
@@ -95,24 +89,8 @@
     document.getElementById('current-track-artwork').src = 'data:image/png;base64,' + artwork;
   };
 
-  SpotifyRemoteClient.prototype.playPause = function() {
-    this.socket.emit('playPause');
-  };
-
-  SpotifyRemoteClient.prototype.playNext = function() {
-    this.socket.emit('next');
-  };
-
-  SpotifyRemoteClient.prototype.playPrevious = function() {
-    this.socket.emit('previous');
-  };
-
-  SpotifyRemoteClient.prototype.volumeUp = function() {
-    this.socket.emit('volumeUp');
-  };
-
-  SpotifyRemoteClient.prototype.volumeDown = function() {
-    this.socket.emit('volumeDown');
+  SpotifyRemoteClient.prototype._emit = function(command) {
+    this.socket.emit(command);
   };
 
   function formatTime(totalSeconds) {
