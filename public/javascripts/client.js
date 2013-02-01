@@ -28,7 +28,7 @@
           'current-play-state': 'playPause'
         }[event.target.id];
 
-        if (command) this._emit(command);
+        if (command) this.socket.emit(command);
 
         event.preventDefault();
       }.bind(this)
@@ -47,7 +47,7 @@
           189: 'volumeDown'  // -
         }[event.keyCode];
 
-        if (command) this._emit(command);
+        if (command) this.socket.emit(command);
       }.bind(this)
     );
 
@@ -126,10 +126,6 @@
 
   SpotifyRemoteClient.prototype.showCurrentArtwork = function(artwork) {
     this.$('artwork').src = 'data:image/png;base64,' + artwork;
-  };
-
-  SpotifyRemoteClient.prototype._emit = function(command) {
-    this.socket.emit(command);
   };
 
   // jQuery.
