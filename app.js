@@ -1,6 +1,5 @@
 var express             = require('express');
 var http                = require('http');
-var path                = require('path');
 var app                 = express();
 var server              = require('http').createServer(app);
 var io                  = require('socket.io').listen(server);
@@ -15,7 +14,7 @@ io.set('log level', 1);
 app.configure(function() {
   app.set('port', process.env.PORT || 3000);
   app.use(express.favicon());
-  app.use(express.static(path.join(__dirname, 'public')));
+  app.use(express.static(__dirname + '/public'));
 });
 
 app.get('/', function(req, res) {
