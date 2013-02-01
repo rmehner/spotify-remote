@@ -38,13 +38,13 @@
       'keyup',
       function(event) {
         var command = {
-          32: 'playPause', // space
-          78: 'next', // n
-          80: 'previous', // p
-          107: 'volumeUp', // + on numpad
+          32: 'playPause',   // space
+          78: 'next',        // n
+          80: 'previous',    // p
+          107: 'volumeUp',   // + on numpad
           109: 'volumeDown', // - on numpad
-          187: 'volumeUp', // +
-          189: 'volumeDown' // -
+          187: 'volumeUp',   // +
+          189: 'volumeDown'  // -
         }[event.keyCode];
 
         if (command) this._emit(command);
