@@ -84,35 +84,31 @@
     }
 
     this.currentTrack = track;
-    this.$('current-track-artist').innerText   = track.artist;
-    this.$('current-track-name').innerText     = track.name;
-    this.$('current-track-duration').innerText = formatTime(track.duration);
+    this.$('artist').innerText   = track.artist;
+    this.$('name').innerText     = track.name;
+    this.$('duration').innerText = formatTime(track.duration);
   };
 
   SpotifyRemoteClient.prototype.showCurrentState = function(state) {
     if (!this.currentState || this.currentState.position !== state.position) {
-      this.$(
-        'current-track-played-time'
-      ).innerText = formatTime(parseInt(state.position, 10));
+      var position = parseInt(state.position, 10);
+
+      this.$('played-time').innerText = formatTime(position);
     }
 
     if (!this.currentState || this.currentState.state !== state.state) {
-      this.$(
-        'current-play-state'
-      ).innerText = state.state == 'paused' ? 'Play' : 'Pause';
+      this.$('current-play-state').innerText = state.state == 'paused' ? 'Play' : 'Pause';
     }
 
     if (!this._volumeRangeBlocked && (!this.currentState || this.currentState.volume !== state.volume)) {
-      this.$(
-        'current-volume'
-      ).value = state.volume;
+      this.$('current-volume').value = state.volume;
     }
 
     this.currentState = state;
   };
 
   SpotifyRemoteClient.prototype.showCurrentArtwork = function(artwork) {
-    this.$('current-track-artwork').src = 'data:image/png;base64,' + artwork;
+    this.$('artwork').src = 'data:image/png;base64,' + artwork;
   };
 
   SpotifyRemoteClient.prototype._emit = function(command) {
