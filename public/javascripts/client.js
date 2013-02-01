@@ -2,8 +2,10 @@
   "use strict";
 
   var SpotifyRemoteClient = function(host) {
-    this.host     = host || window.location.hostname;
-    this.elements = [];
+    this.host                = host || window.location.hostname;
+    this.elements            = [];
+    this._canTouchThis       = 'ontouchstart' in window || 'createTouch' in d;
+    this._volumeRangeBlocked = false;
   };
 
   SpotifyRemoteClient.prototype.init = function(io, container) {
@@ -49,6 +51,30 @@
       }.bind(this),
       false
     );
+
+    this.$('current-volume').addEventListener(
+      'change',
+      function(event) {
+        this.socket.emit('setVolume', event.target.value);
+      }.bind(this),
+      false
+    );
+
+    this.$('current-volume').addEventListener(
+      this._canTouchThis ? 'touchstart' : 'mousedown',
+      function() {
+        this._volumeRangeBlocked = true;
+      }.bind(this),
+      false
+    );
+
+    this.$('current-volume').addEventListener(
+      this._canTouchThis ? 'touchend' : 'mouseup',
+      function() {
+        this._volumeRangeBlocked = false;
+      }.bind(this),
+      false
+    );
   };
 
   SpotifyRemoteClient.prototype.showCurrentTrack = function(track) {
@@ -76,7 +102,7 @@
       ).innerText = state.state == 'paused' ? 'Play' : 'Pause';
     }
 
-    if (!this.currentState || this.currentState.volume !== state.volume) {
+    if (!this._volumeRangeBlocked && (!this.currentState || this.currentState.volume !== state.volume)) {
       this.$(
         'current-volume'
       ).value = state.volume;
