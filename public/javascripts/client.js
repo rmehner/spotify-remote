@@ -31,8 +31,7 @@
         if (command) this._emit(command);
 
         event.preventDefault();
-      }.bind(this),
-      false
+      }.bind(this)
     );
 
     body.addEventListener(
@@ -49,8 +48,7 @@
         }[event.keyCode];
 
         if (command) this._emit(command);
-      }.bind(this),
-      false
+      }.bind(this)
     );
 
     // volume control
@@ -58,24 +56,21 @@
       'change',
       function(event) {
         this.socket.emit('setVolume', event.target.value);
-      }.bind(this),
-      false
+      }.bind(this)
     );
 
     this.$('current-volume').addEventListener(
       this._canTouchThis ? 'touchstart' : 'mousedown',
       function() {
         this._volumeRangeBlocked = true;
-      }.bind(this),
-      false
+      }.bind(this)
     );
 
     this.$('current-volume').addEventListener(
       this._canTouchThis ? 'touchend' : 'mouseup',
       function() {
         this._volumeRangeBlocked = false;
-      }.bind(this),
-      false
+      }.bind(this)
     );
 
     // position control
@@ -83,8 +78,7 @@
       this._canTouchThis ? 'touchstart' : 'mousedown',
       function() {
         this._positionRangeBlocked = true;
-      }.bind(this),
-      false
+      }.bind(this)
     );
 
     this.$('position').addEventListener(
@@ -92,8 +86,7 @@
       function(event) {
         this.socket.emit('jumpTo', event.target.value);
         this._positionRangeBlocked = false;
-      }.bind(this),
-      false
+      }.bind(this)
     );
   };
 
