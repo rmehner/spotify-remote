@@ -13,7 +13,7 @@ io.enable('browser client gzip');
 io.set('log level', 1);
 
 app.configure(function() {
-  app.set('port', process.env.PORT || 3000);
+  app.set('port', process.env.PORT || 3333);
   app.use(express.favicon());
   app.use(express.static(__dirname + '/public'));
 });

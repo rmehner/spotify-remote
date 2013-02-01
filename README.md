@@ -25,7 +25,13 @@ The aim is to be as mobile & battery-friendly as possible.
     ```
     $ spotify-remote
     ```
-3. Open `http://localhost:3000` in your browser
+3. Open `http://localhost:3333` in your browser
+
+If you need a different port, just use the PORT environment variable:
+
+```
+$ PORT=1337 spotify-remote
+```
 
 ## Credits
 
