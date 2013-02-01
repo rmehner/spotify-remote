@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Spotify-Remote</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+  <div id="remote-control">
+    <img id="current-track-artwork" width="200" height="200">
+    <div id="current-track-artist"></div>
+    <div id="current-track-name"></div>
+    <div>
+      <span id="current-track-played-time"></span>
+      <span>&nbsp;/&nbsp;</span>
+      <span id="current-track-duration"></span>
+    </div>
+    <a id="previous" href="">&lt;&lt;</a>&nbsp;<a id="current-play-state" href="">Play</a>&nbsp;<a id="next" href="">&gt;&gt;</a>
+    <div id="current-volume"></div>
+  </div>
+  <script src="/javascripts/client.js"></script>
+</body>
+</html>

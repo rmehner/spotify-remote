@@ -7,7 +7,6 @@
   },
   "dependencies": {
     "express": "3.0.4",
-    "jade": "*",
     "spotify-node-applescript": "git://github.com/rmehner/spotify-node-applescript.git#get_artwork",
     "socket.io": "~0.9.13"
   },

@@ -14,8 +14,6 @@ io.set('log level', 1);
 
 app.configure(function() {
   app.set('port', process.env.PORT || 3000);
-  app.set('views', __dirname + '/views');
-  app.set('view engine', 'jade');
   app.use(express.favicon());
   app.use(express.logger('dev'));
   app.use(app.router);
@@ -27,11 +25,11 @@ app.configure('development', function() {
 });
 
 app.get('/', function(req, res) {
-  res.render('index', {title: 'Spotify-Remote'});
+  res.sendfile(__dirname + '/public/index.html');
 });
 
 server.listen(app.get('port'), function() {
-  console.log("Express server listening on port " + app.get('port'));
+  console.log('Your spotify remote is awaiting commands on: http://localhost:' + app.get('port'));
 });
 
 new SpotifyRemoteServer(io, spotify);
