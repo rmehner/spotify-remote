@@ -11,16 +11,16 @@ at the moment.
 1. Install [Node.js](http://nodejs.org/)
 2. Install spotify-remote in a shell:
 
-```
-$ npm install -g spotify-remote
-```
+    ```
+    $ npm install -g spotify-remote
+    ```
 
 ## Starting and using spotify-remote
 
-1. Start the spotify-remote server in a shell:
+1. Make sure Spotify is running.
+2. Start the spotify-remote server in a shell:
 
-```
-$ spotify-remote
-```
-
-2. Open `http://localhost:3000` in your browser
+    ```
+    $ spotify-remote
+    ```
+3. Open `http://localhost:3000` in your browser
