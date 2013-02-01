@@ -96,9 +96,9 @@
       return;
     }
 
-    this.$('artist').innerText   = track.artist;
-    this.$('name').innerText     = track.name;
-    this.$('duration').innerText = formatTime(track.duration);
+    this.$('artist').textContent   = track.artist;
+    this.$('name').textContent     = track.name;
+    this.$('duration').textContent = formatTime(track.duration);
     this.$('position').setAttribute('max', track.duration);
 
     this.currentTrack = track;
@@ -106,7 +106,7 @@
 
   SpotifyRemoteClient.prototype.showCurrentState = function(state) {
     if (!this.currentState || this.currentState.position !== state.position) {
-      this.$('played-time').innerText = formatTime(parseInt(state.position, 10));
+      this.$('played-time').textContent = formatTime(parseInt(state.position, 10));
 
       if (!this._positionRangeBlocked) {
         this.$('position').value = state.position.replace(',', '.');
@@ -114,7 +114,7 @@
     }
 
     if (!this.currentState || this.currentState.state !== state.state) {
-      this.$('current-play-state').innerText = state.state == 'paused' ? 'Play' : 'Pause';
+      this.$('current-play-state').textContent = state.state == 'paused' ? 'Play' : 'Pause';
     }
 
     if (!this._volumeRangeBlocked && (!this.currentState || this.currentState.volume !== state.volume)) {
