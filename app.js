@@ -15,12 +15,7 @@ io.set('log level', 1);
 app.configure(function() {
   app.set('port', process.env.PORT || 3000);
   app.use(express.favicon());
-  app.use(express.logger('dev'));
   app.use(express.static(path.join(__dirname, 'public')));
-});
-
-app.configure('development', function() {
-  app.use(express.errorHandler());
 });
 
 app.get('/', function(req, res) {
