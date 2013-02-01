@@ -40,11 +40,13 @@
       'keyup',
       function(event) {
         var keyCodesToFunctions = {
-          32: self.playPause,
-          78: self.playNext,
-          80: self.playPrevious,
-          107: self.volumeUp,
-          109: self.volumeDown
+          32: self.playPause, // space
+          78: self.playNext, // n
+          80: self.playPrevious, // p
+          107: self.volumeUp, // + on numpad
+          109: self.volumeDown, // - on numpad
+          187: self.volumeUp, // +
+          189: self.volumeDown // -
         };
 
         if (event.keyCode in keyCodesToFunctions) {
@@ -83,7 +85,7 @@
     if (!this.currentState || this.currentState.volume !== state.volume) {
       document.getElementById(
         'current-volume'
-      ).innerText = state.volume;
+      ).value = state.volume;
     }
 
     this.currentState = state;
