@@ -1,5 +1,4 @@
-spotify-remote — Control Spotify from the browser
-==============
+# spotify-remote — Control Spotify from the browser
 
 ## Synopsis
 spotify-remote allows you to control Spotify from a browser. Currently it works
