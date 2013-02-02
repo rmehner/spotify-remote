@@ -20,7 +20,7 @@
     var body = d.getElementsByTagName('body')[0];
 
     body.addEventListener(
-      'click',
+      this._canTouchThis ? 'touchstart' : 'click',
       function(event) {
         var command = {
           'previous': 'previous',
