@@ -9,9 +9,8 @@
     this._positionRangeBlocked = false;
   };
 
-  SpotifyRemoteClient.prototype.init = function(io, container) {
-    this.socket    = io.connect(this.host);
-    this.container = container;
+  SpotifyRemoteClient.prototype.init = function(io) {
+    this.socket = io.connect(this.host);
 
     this.socket.on('currentTrack', this.showCurrentTrack.bind(this));
     this.socket.on('currentState', this.showCurrentState.bind(this));
@@ -145,5 +144,5 @@
   };
 
   var client = new SpotifyRemoteClient();
-  client.init(io, document.getElementById('remote-control'));
+  client.init(io);
 })();
