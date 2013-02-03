@@ -10,7 +10,7 @@ var SpotifyRemoteServer = require('./lib/spotify_remote_server');
 io.enable('browser client minification');
 io.enable('browser client etag');
 io.enable('browser client gzip');
-io.set('log level', 1);
+io.set('log level', 0);
 
 app.configure(function() {
   app.set('port', process.env.PORT || 3333);
