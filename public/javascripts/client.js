@@ -1,10 +1,10 @@
-(function(d) {
+(function() {
   "use strict";
 
   var SpotifyRemoteClient = function(host) {
     this.host                  = host || window.location.hostname;
     this.elements              = [];
-    this._canTouchThis         = 'ontouchstart' in window || 'createTouch' in d;
+    this._canTouchThis         = 'ontouchstart' in window || 'createTouch' in document;
     this._volumeRangeBlocked   = false;
     this._positionRangeBlocked = false;
   };
@@ -17,7 +17,7 @@
     this.socket.on('currentState', this.showCurrentState.bind(this));
     this.socket.on('currentArtwork', this.showCurrentArtwork.bind(this));
 
-    d.addEventListener(
+    document.addEventListener(
       this._canTouchThis ? 'touchstart' : 'click',
       function(event) {
         var command = {
@@ -33,7 +33,7 @@
       }.bind(this)
     );
 
-    d.addEventListener(
+    document.addEventListener(
       'keyup',
       function(event) {
         var command = {
@@ -129,7 +129,7 @@
 
   // jQuery.
   SpotifyRemoteClient.prototype.$ = function(id) {
-    this.elements[id] = this.elements[id] || d.getElementById(id);
+    this.elements[id] = this.elements[id] || document.getElementById(id);
 
     return this.elements[id];
   };
@@ -145,5 +145,5 @@
   };
 
   var client = new SpotifyRemoteClient();
-  client.init(io, d.getElementById('remote-control'));
-})(document);
+  client.init(io, document.getElementById('remote-control'));
+})();
