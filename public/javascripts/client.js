@@ -98,7 +98,7 @@
 
     this.$('artist').textContent   = track.artist;
     this.$('name').textContent     = track.name;
-    this.$('duration').textContent = formatTime(track.duration);
+    this.$('duration').textContent = this.formatTime(track.duration);
     this.$('position').setAttribute('max', track.duration);
 
     this.currentTrack = track;
@@ -106,7 +106,7 @@
 
   SpotifyRemoteClient.prototype.showCurrentState = function(state) {
     if (!this.currentState || this.currentState.position !== state.position) {
-      this.$('played-time').textContent = formatTime(parseInt(state.position, 10));
+      this.$('played-time').textContent = this.formatTime(parseInt(state.position, 10));
 
       if (!this._positionRangeBlocked) {
         this.$('position').value = state.position.replace(',', '.');
@@ -135,7 +135,7 @@
     return this.elements[id];
   };
 
-  function formatTime(totalSeconds) {
+  SpotifyRemoteClient.prototype.formatTime = function(totalSeconds) {
     var minutes = Math.floor(totalSeconds / 60);
     var seconds = totalSeconds % 60;
 
