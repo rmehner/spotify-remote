@@ -143,6 +143,5 @@
     return minutes + ":" + seconds;
   };
 
-  var client = new SpotifyRemoteClient();
-  client.init(io);
+  new SpotifyRemoteClient().init(io);
 })();
