@@ -17,9 +17,7 @@
     this.socket.on('currentState', this.showCurrentState.bind(this));
     this.socket.on('currentArtwork', this.showCurrentArtwork.bind(this));
 
-    var body = d.getElementsByTagName('body')[0];
-
-    body.addEventListener(
+    d.addEventListener(
       this._canTouchThis ? 'touchstart' : 'click',
       function(event) {
         var command = {
@@ -28,13 +26,14 @@
           'current-play-state': 'playPause'
         }[event.target.id];
 
-        if (command) this.socket.emit(command);
+        if (!command) return;
 
+        this.socket.emit(command);
         event.preventDefault();
       }.bind(this)
     );
 
-    body.addEventListener(
+    d.addEventListener(
       'keyup',
       function(event) {
         var command = {
