@@ -57,10 +57,9 @@ well, but of course there's a lot to do. Things that come to mind are:
 
 * Linux support (Spotify is supposed to have a DBUS-Interface)
 * Windows support (if anyone is up to it)
-* Give this thing a nice design
 * Make it even more battery friendly
 * Test & fix on Android devices
-* Search for Tracks
+* Search for tracks
 * Play arbitrary tracks
 * Playlist support (as in: see the current track in the playlist)
 
