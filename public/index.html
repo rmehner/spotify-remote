@@ -3,24 +3,26 @@
 <head>
   <meta charset="utf-8">
   <title>Spotify-Remote</title>
-  <link rel="stylesheet" href="/stylesheets/style.css">
+  <link rel="stylesheet" href="stylesheets/style.css">
   <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
-  <img id="artwork" width="200" height="200">
-  <div id="artist"></div>
-  <div id="name"></div>
-  <div>
-    <span id="played-time"></span>
-    <input type="range" id="position" min="0" max="100" />
-    <span id="duration"></span>
+  <div class="remote-wrapper">
+    <img id="artwork" class="artwork" src="http://lightofmorning.com/wp-content/uploads/2010/03/AlbumCoverArt.jpg">
+    <div id="artist" class="artist">Artists Name</div>
+    <div id="name" class="song-title">This is the song title</div>
+    <div class="time">
+      <span id="played-time"></span>
+      <input type="range" id="position" min="0" max="100" />
+      <span id="duration"></span>
+    </div>
+    <div class="state-controls">
+      <a id="previous" class="button previous">&lt;&lt;</a>
+      <a id="current-play-state" class="button play-pause">Play</a>
+      <a id="next" class="button next">&gt;&gt;</a>
+    </div>
+    <input type="range" id="current-volume" min="0" max="100" />
   </div>
-  <div class="state-controls">
-    <a id="previous">&lt;&lt;</a>
-    <a id="current-play-state">Play</a>
-    <a id="next">&gt;&gt;</a>
-  </div>
-  <input type="range" id="current-volume" min="0" max="100" />
   <script src="/javascripts/client.js"></script>
 </body>
 </html>

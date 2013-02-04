@@ -1,5 +1,5 @@
 body {
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 14px sans-serif;
 }
 
 a {
@@ -7,6 +7,15 @@ a {
   cursor: pointer;
 }
 
-#artist {
+.remote-wrapper {
+  width: 480px;
+}
+
+img.artwork {
+  display: block;
+  max-width: 100%;
+}
+
+.artist {
   font-weight: bold;
 }
