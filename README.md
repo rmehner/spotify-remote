@@ -37,7 +37,7 @@ $ PORT=1337 spotify-remote
 ## Credits
 
 * [Robin Mehner](http://coding-robin.de)
-* [Thorsten Ball](http://thorstenball.github.com)
+* [Thorsten Ball](http://mrnugget.github.com)
 * [André Haveman](https://github.com/andrehaveman) for [spotify-node-applescript](https://github.com/andrehaveman/spotify-node-applescript)
 
 ## Todo
