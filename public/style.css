@@ -10,13 +10,17 @@
   box-sizing: border-box;
 }
 
-body {
+html {
   font: 14px sans-serif;
   background: #e1e1e1;
   color: #fff;
 }
 
-h1 span {
+.logo {
+  margin: 0 1rem;
+}
+
+.logo span {
   text-shadow: 0 0 3px rgba(0,0,0,.5);
   color: #bada55;
 }
