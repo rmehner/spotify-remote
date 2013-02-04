@@ -3,11 +3,15 @@
 [![Build Status](https://travis-ci.org/rmehner/spotify-remote.png?branch=master)](https://travis-ci.org/rmehner/spotify-remote)
 
 ## Synopsis
+
 spotify-remote allows you to control Spotify from a browser. Currently it works
 by talking to Spotify via its AppleScript interface, so only OS X is supported
 at the moment.
 
-The aim is to be as mobile & battery-friendly as possible.
+## Aim
+
+spotify-remote tries to be as mobile-friendly and battery-friendly as possible,
+on the client as well as on the server.
 
 ## Installation
 
