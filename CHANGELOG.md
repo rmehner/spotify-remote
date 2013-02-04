@@ -3,6 +3,7 @@
 ## 0.0.4 (to be released)
 
 * introduce a design, thank you @mbesser
+* stop polling for artwork when there is no active socket connection
 
 ## 0.0.3 (Released 4th February, 2013)
 
