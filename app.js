@@ -1,9 +1,8 @@
 #!/usr/bin/env node
 
-var express             = require('express');
-var app                 = express();
-var server              = require('http').createServer(app);
-var io                  = require('socket.io').listen(server);
+var app                 = require('http').createServer(handleRequest);
+var io                  = require('socket.io').listen(app);
+var fs                  = require('fs');
 var spotify             = require('spotify-node-applescript');
 var SpotifyRemoteServer = require('./lib/spotify_remote_server');
 
@@ -12,18 +11,30 @@ io.enable('browser client etag');
 io.enable('browser client gzip');
 io.set('log level', 0);
 
-app.configure(function() {
-  app.set('port', process.env.PORT || 3333);
-  app.use(express.favicon());
-  app.use(express.static(__dirname + '/public'));
-});
+var mimeTypes = {
+  'css': 'text/css',
+  'js': 'text/javascript',
+  'html': 'text/html;charset=UTF-8'
+};
 
-app.get('/', function(req, res) {
-  res.sendfile(__dirname + '/public/index.html');
-});
+function handleRequest(req, res) {
+  var fileName = req.url === '/' ? 'index.html' : req.url.split('/').splice(-1)[0];
+  var filePath = __dirname + '/public/' + fileName;
 
-server.listen(app.get('port'), function() {
-  console.log('Your spotify remote is awaiting commands on: http://localhost:' + app.get('port'));
-});
+  fs.exists(filePath, function(exists) {
+    if (!exists) {
+      res.writeHead(404);
+      res.end("404 Not Found\n");
+    } else {
+      var extension = filePath.split('.').splice(-1)[0];
 
+      res.writeHead(200, {'Content-Type': mimeTypes[extension]});
+      fs.createReadStream(filePath).pipe(res);
+    }
+  });
+}
+
+app.listen(process.env.PORT || 3333, function() {
+  console.log('Your spotify remote is awaiting commands on: http://localhost:' + app.address().port);
+});
 new SpotifyRemoteServer(io, spotify);
