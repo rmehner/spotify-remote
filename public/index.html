@@ -2,41 +2,34 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width">
   <title>Spotify-Remote</title>
-<<<<<<< HEAD
-  <link rel="stylesheet" href="stylesheets/style.css">
-=======
   <link rel="stylesheet" href="/style.css">
->>>>>>> master
   <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
   <div class="remote-wrapper">
-    <img id="artwork" class="artwork" src="http://lightofmorning.com/wp-content/uploads/2010/03/AlbumCoverArt.jpg">
-    <div id="artist" class="artist">Artists Name</div>
-    <div id="name" class="song-title">This is the song title</div>
-    <div class="time">
-      <span id="played-time"></span>
+      <h1>spotify<span>remote</span></h1>
+    <img id="artwork" class="artwork">
+    <div class="control-container time">
+      <span id="played-time" class="played-time"></span>
       <input type="range" id="position" min="0" max="100" />
-      <span id="duration"></span>
+      <span id="duration" class="duration"></span>
     </div>
-    <div class="state-controls">
+    <div class="control-container">
+      <div id="artist" class="artist"></div>
+      <div id="name" class="song-title"></div>
+    </div>
+    <div class="control-container">
       <a id="previous" class="button previous">&lt;&lt;</a>
       <a id="current-play-state" class="button play-pause">Play</a>
       <a id="next" class="button next">&gt;&gt;</a>
     </div>
-    <input type="range" id="current-volume" min="0" max="100" />
+    <div class="control-container">
+      <input type="range" id="current-volume" min="0" max="100" />
+    </div>
   </div>
-<<<<<<< HEAD
-  <script src="/javascripts/client.js"></script>
-=======
-  <div class="state-controls">
-    <a id="previous">&lt;&lt;</a>
-    <a id="current-play-state">Play</a>
-    <a id="next">&gt;&gt;</a>
-  </div>
-  <input type="range" id="current-volume" min="0" max="100" />
   <script src="/client.js"></script>
->>>>>>> master
 </body>
 </html>
