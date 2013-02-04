@@ -90,7 +90,7 @@
 
   SpotifyRemoteClient.prototype.showCurrentTrack = function(track) {
     // don't rerender stuff when nothing has changed
-    if (this.currentTrack && this.currentTrack.id == track.id) {
+    if (this.currentTrack && this.currentTrack.id === track.id) {
       return;
     }
 
@@ -112,7 +112,7 @@
     }
 
     if (!this.currentState || this.currentState.state !== state.state) {
-      this.$('current-play-state').textContent = state.state == 'paused' ? 'Play' : 'Pause';
+      this.$('current-play-state').textContent = state.state === 'paused' ? 'Play' : 'Pause';
     }
 
     if (!this._volumeRangeBlocked && (!this.currentState || this.currentState.volume !== state.volume)) {
