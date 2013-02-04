@@ -18,6 +18,12 @@ The aim is to be as mobile & battery-friendly as possible.
     $ npm install -g spotify-remote
     ```
 
+## Update
+
+```
+$ npm install -g spotify-remote
+```
+
 ## Starting and using spotify-remote
 
 1. Make sure Spotify is running.
