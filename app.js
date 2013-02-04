@@ -36,5 +36,6 @@ function handleRequest(req, res) {
 
 app.listen(process.env.PORT || 3333, function() {
   console.log('Your spotify remote is awaiting commands on: http://localhost:' + app.address().port);
+  console.log('CTRL+C to quit.');
 });
 new SpotifyRemoteServer(io, spotify);
