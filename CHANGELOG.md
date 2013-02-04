@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.4 (to be released)
+
+* introduce a design, thank you @mbesser
+
 ## 0.0.3 (Released 4th February, 2013)
 
 * use simple static file server instead of express
