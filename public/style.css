@@ -18,15 +18,6 @@ html {
   color: #fff;
 }
 
-.logo {
-  margin: 0 1rem 1rem 1rem;
-}
-
-.logo span {
-  text-shadow: 0 0 3px rgba(0,0,0,.5);
-  color: #bada55;
-}
-
 a {
   cursor: pointer;
 }
@@ -38,7 +29,6 @@ a {
   top: 0;
   bottom: 0;
   width: 100%;
-  padding: 1em 0;
 }
 
 .control-wrapper {
