@@ -158,15 +158,6 @@ input[type='range']::-webkit-slider-thumb {
   font-weight: bold;
 }
 
-/* --- media query to avoid ugly vertical scaling --- */
-
-@media screen and (min-height: 580px) {
-
-  .remote-wrapper {
-    max-height: 37.5rem;
-  }
-}
-
 /* --- media query for larger than common mobile screens --- */
 
 @media screen and (min-width: 480px) {
