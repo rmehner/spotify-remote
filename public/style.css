@@ -17,7 +17,7 @@ html {
 }
 
 .logo {
-  margin: 0 1rem;
+  margin: 0 1rem 1rem 1rem;
 }
 
 .logo span {
@@ -31,11 +31,19 @@ a {
 
 /* --- layout --- */
 
-
 .remote-wrapper {
+  position: absolute;
+  top: 0;
+  bottom: 0;
   width: 320px;
   padding: 1em 0;
   margin: 1em auto;
+}
+
+.control-wrapper {
+  position: absolute;
+  bottom: 0;
+  padding: 1em 0;
 }
 
 .ui-container {
@@ -65,10 +73,6 @@ input[type='range']::-webkit-slider-thumb {
 }
 
 /* --- time controls --- */
-
-.time {
-  top: -3em;
-}
 
 .time input[type='range'] {
   display: block;
@@ -129,6 +133,12 @@ input[type='range']::-webkit-slider-thumb {
   border: .5em solid rgba(0,0,0,.2);
   border-radius: 1em;
   box-shadow: 0 0 10px #666;
+}
+
+.control-wrapper {
+  background: -webkit-linear-gradient(rgba(0,0,0,.5), #333 35%);
+  border-bottom-left-radius: 1em;
+  border-bottom-right-radius: 1em;
 }
 
 /* --- artist, title, album cover --- */
