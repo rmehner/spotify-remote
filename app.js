@@ -13,8 +13,10 @@ io.set('log level', 0);
 
 var mimeTypes = {
   'css': 'text/css',
+  'html': 'text/html;charset=UTF-8',
+  'ico': 'image/x-icon',
   'js': 'text/javascript',
-  'html': 'text/html;charset=UTF-8'
+  'png': 'image/png'
 };
 
 function handleRequest(req, res) {
