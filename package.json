@@ -17,7 +17,7 @@
   "dependencies": {
     "sinon": "~1.5.2",
     "socket.io": "~0.9.13",
-    "spotify-node-applescript": "git://github.com/rmehner/spotify-node-applescript.git#get_artwork"
+    "spotify-node-applescript": "git://github.com/rmehner/spotify-node-applescript.git#artwork_and_escape_quotes"
   },
   "devDependencies": {
     "mocha": "~1.8.1"
