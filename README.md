@@ -78,3 +78,9 @@ If you need any help, don't hesitate to ask!
 ## License
 
 MIT, see [LICENSE](LICENSE)
+
+[Spotify](http://www.spotify.com) is a registered trademark of Spotify Ltd.
+spotify-remote is in no way affiliated with Spotify, we're just a little
+tool sitting on top of the Spotify.app and their webservices.
+
+We come in peace.
