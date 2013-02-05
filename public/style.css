@@ -123,11 +123,19 @@ input[type='range']::-webkit-slider-thumb {
 
 .remote-wrapper {
   background: -webkit-linear-gradient(#555, #333);
+  background: -moz-linear-gradient(#555, #333);
+  background: -o-linear-gradient(#555, #333);
+  background: -ms-linear-gradient(#555, #333);
+  background: linear-gradient(#555, #333);
   overflow: hidden;
 }
 
 .control-wrapper {
   background: -webkit-linear-gradient(rgba(0,0,0,.5), #333 35%);
+  background: -moz-linear-gradient(rgba(0,0,0,.5), #333 35%);
+  background: -o-linear-gradient(rgba(0,0,0,.5), #333 35%);
+  background: -ms-linear-gradient(rgba(0,0,0,.5), #333 35%);
+  background: linear-gradient(rgba(0,0,0,.5), #333 35%);
 }
 
 .ui-container {
