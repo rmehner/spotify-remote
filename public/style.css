@@ -157,4 +157,11 @@ input[type='range']::-webkit-slider-thumb {
   font-weight: bold;
 }
 
+/* --- media query to avoid ugly vertical scaling --- */
 
+@media screen and (min-height: 675px) {
+
+  .remote-wrapper {
+    height: 550px
+  }
+}
