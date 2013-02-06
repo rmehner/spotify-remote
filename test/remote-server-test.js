@@ -13,7 +13,7 @@ var socket = {
   on: function(event, cb) {
     this.events[event] = cb;
   },
-  trigger: function(event, cb) {
+  trigger: function(event) {
     this.events[event]();
   }
 };
@@ -101,7 +101,7 @@ describe('SpotifyRemoteServer', function() {
       var server = new SpotifyRemoteServer(io, spotify);
       server.handleConnection(socket);
 
-      var oldVolumeUp = spotify.volumeUp;
+      var originalVolumeUp = spotify.volumeUp;
       spotify.volumeUp = function(cb) { cb.call(server); }
 
       socket.trigger('volumeUp');
@@ -109,7 +109,7 @@ describe('SpotifyRemoteServer', function() {
       process.nextTick(function() {
         assert.equal(emitSpy.withArgs('currentState').callCount, 2);
 
-        spotify.volumeUp = oldVolumeUp;
+        spotify.volumeUp = originalVolumeUp;
         server.stopIntervals();
         done();
       });
@@ -122,7 +122,7 @@ describe('SpotifyRemoteServer', function() {
       var server = new SpotifyRemoteServer(io, spotify);
       server.handleConnection(socket);
 
-      var oldVolumeDown = spotify.volumeDown;
+      var originalVolumeDown = spotify.volumeDown;
       spotify.volumeDown = function(cb) { cb.call(server); }
 
       socket.trigger('volumeDown');
@@ -130,7 +130,7 @@ describe('SpotifyRemoteServer', function() {
       process.nextTick(function() {
         assert.equal(emitSpy.withArgs('currentState').callCount, 2);
 
-        spotify.volumeDown = oldVolumeDown;
+        spotify.volumeDown = originalVolumeDown;
         server.stopIntervals();
         done();
       });
@@ -146,7 +146,7 @@ describe('SpotifyRemoteServer', function() {
       var server = new SpotifyRemoteServer(io, spotify);
       server.handleConnection(socket);
 
-      var oldNext = spotify.next;
+      var originalNext = spotify.next;
       spotify.next = function(cb) { cb.call(server); }
 
       socket.trigger('next');
@@ -155,7 +155,7 @@ describe('SpotifyRemoteServer', function() {
         assert.equal(emitSpy.withArgs('currentState').callCount, 2);
         assert.equal(emitSpy.withArgs('currentTrack').callCount, 2);
 
-        spotify.next = oldNext;
+        spotify.next = originalNext;
         server.stopIntervals();
         done();
       });
@@ -171,7 +171,7 @@ describe('SpotifyRemoteServer', function() {
       var server = new SpotifyRemoteServer(io, spotify);
       server.handleConnection(socket);
 
-      var oldPrevious = spotify.previous;
+      var originalPrevious = spotify.previous;
       spotify.previous = function(cb) { cb.call(server); }
 
       socket.trigger('previous');
@@ -180,7 +180,7 @@ describe('SpotifyRemoteServer', function() {
         assert.equal(emitSpy.withArgs('currentState').callCount, 2);
         assert.equal(emitSpy.withArgs('currentTrack').callCount, 2);
 
-        spotify.previous = oldPrevious;
+        spotify.previous = originalPrevious;
         server.stopIntervals();
         done()
       });
@@ -196,7 +196,7 @@ describe('SpotifyRemoteServer', function() {
       var server = new SpotifyRemoteServer(io, spotify);
       server.handleConnection(socket);
 
-      var oldPlayPause = spotify.playPause;
+      var originalPlayPause = spotify.playPause;
       spotify.playPause = function(cb) { cb.call(server); }
 
       socket.trigger('playPause');
@@ -205,7 +205,7 @@ describe('SpotifyRemoteServer', function() {
         assert.equal(emitSpy.withArgs('currentState').callCount, 2);
         assert.equal(emitSpy.withArgs('currentTrack').callCount, 2);
 
-        spotify.playPause = oldPlayPause;
+        spotify.playPause = originalPlayPause;
         server.stopIntervals();
         done();
       });
