@@ -4,6 +4,8 @@
 
 * introduce a design, thank you @mbesser
 * stop polling for artwork when there is no active socket connection
+* reduce polling interval for state, reducing CPU usage, thank you @mrnugget
+* make this thing homescreen friendly
 
 ## 0.0.3 (Released 4th February, 2013)
 
