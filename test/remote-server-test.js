@@ -18,6 +18,7 @@ var socket = {
   }
 };
 var spotify;
+var server;
 
 describe('SpotifyRemoteServer', function() {
   before(function() {
@@ -42,6 +43,10 @@ describe('SpotifyRemoteServer', function() {
     socket.events = {};
   });
 
+  afterEach(function() {
+    server.stopIntervals();
+  });
+
   after(function() {
     fs.readFile = originalReadFile;
   });
@@ -51,34 +56,31 @@ describe('SpotifyRemoteServer', function() {
       var track = {artist: 'Led Zeppelin'};
       spotify.getTrack.callsArgWith(0, null, track);
 
-      var server = new SpotifyRemoteServer(io, spotify);
+      server = new SpotifyRemoteServer(io, spotify);
       server.handleConnection(socket);
 
       assert(emitSpy.calledWith('currentTrack', track));
-      server.stopIntervals();
     });
 
     it('sends the current state to the client', function() {
       var state = {volume: 100, position: 13.37, state: 'paused'};
       spotify.getState.callsArgWith(0, null, state);
 
-      var server = new SpotifyRemoteServer(io, spotify);
+      server = new SpotifyRemoteServer(io, spotify);
       server.handleConnection(socket);
 
       assert(emitSpy.calledWith('currentState', state));
-      server.stopIntervals();
     });
 
     it('pushes the current state to the client every X ms', function(done) {
       var state = {volume: 100};
       spotify.getState.callsArgWith(0, null, state);
 
-      var server = new SpotifyRemoteServer(io, spotify, {interval: 10});
+      server = new SpotifyRemoteServer(io, spotify, {interval: 10});
       server.handleConnection(socket);
 
       setTimeout(function() {
         assert.equal(emitSpy.withArgs('currentState', state).callCount, 3);
-        server.stopIntervals();
         done();
       }, 25);
     });
@@ -87,18 +89,17 @@ describe('SpotifyRemoteServer', function() {
       var artwork = '/path/to/artwork';
       spotify.getArtwork.callsArgWith(0, null, artwork);
 
-      var server = new SpotifyRemoteServer(io, spotify);
+      server = new SpotifyRemoteServer(io, spotify);
       server.handleConnection(socket);
 
       assert(emitSpy.calledWith('currentArtwork', artworkBuffer.toString('base64')));
-      server.stopIntervals();
     });
 
     it('sends the current state on the sockets "volumeUp" event', function(done) {
       var state = {volume: 100, position: 13.37, state: 'paused'};
       spotify.getState.callsArgWith(0, null, state);
 
-      var server = new SpotifyRemoteServer(io, spotify);
+      server = new SpotifyRemoteServer(io, spotify);
       server.handleConnection(socket);
 
       var originalVolumeUp = spotify.volumeUp;
@@ -110,7 +111,6 @@ describe('SpotifyRemoteServer', function() {
         assert.equal(emitSpy.withArgs('currentState').callCount, 2);
 
         spotify.volumeUp = originalVolumeUp;
-        server.stopIntervals();
         done();
       });
     });
@@ -119,7 +119,7 @@ describe('SpotifyRemoteServer', function() {
       var state = {volume: 100, position: 13.37, state: 'paused'};
       spotify.getState.callsArgWith(0, null, state);
 
-      var server = new SpotifyRemoteServer(io, spotify);
+      server = new SpotifyRemoteServer(io, spotify);
       server.handleConnection(socket);
 
       var originalVolumeDown = spotify.volumeDown;
@@ -131,7 +131,6 @@ describe('SpotifyRemoteServer', function() {
         assert.equal(emitSpy.withArgs('currentState').callCount, 2);
 
         spotify.volumeDown = originalVolumeDown;
-        server.stopIntervals();
         done();
       });
     });
@@ -143,7 +142,7 @@ describe('SpotifyRemoteServer', function() {
       var track = {artist: 'Led Zeppelin'};
       spotify.getTrack.callsArgWith(0, null, track);
 
-      var server = new SpotifyRemoteServer(io, spotify);
+      server = new SpotifyRemoteServer(io, spotify);
       server.handleConnection(socket);
 
       var originalNext = spotify.next;
@@ -156,7 +155,6 @@ describe('SpotifyRemoteServer', function() {
         assert.equal(emitSpy.withArgs('currentTrack').callCount, 2);
 
         spotify.next = originalNext;
-        server.stopIntervals();
         done();
       });
     });
@@ -168,7 +166,7 @@ describe('SpotifyRemoteServer', function() {
       var track = {artist: 'Led Zeppelin'};
       spotify.getTrack.callsArgWith(0, null, track);
 
-      var server = new SpotifyRemoteServer(io, spotify);
+      server = new SpotifyRemoteServer(io, spotify);
       server.handleConnection(socket);
 
       var originalPrevious = spotify.previous;
@@ -181,7 +179,6 @@ describe('SpotifyRemoteServer', function() {
         assert.equal(emitSpy.withArgs('currentTrack').callCount, 2);
 
         spotify.previous = originalPrevious;
-        server.stopIntervals();
         done()
       });
     });
@@ -193,7 +190,7 @@ describe('SpotifyRemoteServer', function() {
       var track = {artist: 'Led Zeppelin'};
       spotify.getTrack.callsArgWith(0, null, track);
 
-      var server = new SpotifyRemoteServer(io, spotify);
+      server = new SpotifyRemoteServer(io, spotify);
       server.handleConnection(socket);
 
       var originalPlayPause = spotify.playPause;
@@ -206,7 +203,6 @@ describe('SpotifyRemoteServer', function() {
         assert.equal(emitSpy.withArgs('currentTrack').callCount, 2);
 
         spotify.playPause = originalPlayPause;
-        server.stopIntervals();
         done();
       });
     });
@@ -214,7 +210,7 @@ describe('SpotifyRemoteServer', function() {
 
   describe('#handleDisconnect', function() {
     it('stops polling spotify when there is no connection', function(done) {
-      var server = new SpotifyRemoteServer(io, spotify, {interval: 0});
+      server = new SpotifyRemoteServer(io, spotify, {interval: 0});
       server.handleConnection(socket);
 
       assert(spotify.getState.called);
@@ -225,13 +221,12 @@ describe('SpotifyRemoteServer', function() {
       setTimeout(function() {
         assert(!spotify.getState.called);
 
-        server.stopIntervals();
         done();
       }, 15);
     });
 
     it('does not send to disconnected sockets', function() {
-      var server = new SpotifyRemoteServer(io, spotify);
+      server = new SpotifyRemoteServer(io, spotify);
       spotify.getState.callsArgWith(0, null, {});
 
       server.handleConnection(socket);
@@ -242,8 +237,6 @@ describe('SpotifyRemoteServer', function() {
       server.handleConnection({emit: function() {}, on: function(){}});
 
       assert(emitSpy.notCalled);
-
-      server.stopIntervals();
     });
   });
 });
