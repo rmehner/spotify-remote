@@ -10,8 +10,13 @@ at the moment.
 
 ## Aim
 
-spotify-remote tries to be as mobile-friendly and battery-friendly as possible,
-on the client as well as on the server.
+spotify-remote tries to be a lightweight client-server solution for controlling
+your Spotify, being as battery-friendly and mobile-friendly as possible.
+
+One of the major issues regarding performance at the moment is the usage of
+AppleScript to poll the Spotify client. The aim is to either optimize the usage
+of AppleScript to shrink its CPU consumption or find a different solution
+altogether.
 
 ## Installation
 
