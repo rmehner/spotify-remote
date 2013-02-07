@@ -3,16 +3,6 @@ var exec = require('child_process').exec,
 
 // apple scripts
 var scripts = {
-    state: [
-        'tell application "Spotify"',
-        'set cstate to "{"',
-        'set cstate to cstate & "\\"volume\\": " & sound volume',
-        'set cstate to cstate & ",\\"position\\": \\"" & player position & "\\""',
-        'set cstate to cstate & ",\\"state\\": \\"" & player state & "\\""',
-        'set cstate to cstate & "}"',
-        'return cstate',
-        'end tell'
-    ],
     volumeUp : [
         'tell application "Spotify" to set sound volume to (sound volume + 10)'
     ],
@@ -120,7 +110,10 @@ exports.getTrack = function(callback){
 };
 
 exports.getState = function(callback){
-    return execScript('state', createJSONResponseHandler(callback));
+    return applescript.execFile(
+        __dirname + '/scripts/get_state.applescript',
+        createJSONResponseHandler(callback)
+    );
 };
 
 exports.jumpTo = function(position, callback){

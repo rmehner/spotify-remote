@@ -21,13 +21,11 @@ var spotify;
 var server;
 
 describe('SpotifyRemoteServer', function() {
-  before(function() {
+  beforeEach(function() {
     fs.readFile = function(path, cb) {
       cb(null, artworkBuffer);
     };
-  });
 
-  beforeEach(function() {
     // that's the minimal spotify interface we use
     spotify = sinon.stub({
       getTrack: function() {},
@@ -45,9 +43,6 @@ describe('SpotifyRemoteServer', function() {
 
   afterEach(function() {
     server.stopPolling();
-  });
-
-  after(function() {
     fs.readFile = originalReadFile;
   });
 
@@ -208,6 +203,78 @@ describe('SpotifyRemoteServer', function() {
     });
   });
 
+  describe('#getCurrentArtwork', function() {
+    var clock;
+
+    beforeEach(function() {
+      clock = sinon.useFakeTimers();
+    });
+
+    afterEach(function() {
+      clock.restore();
+    });
+
+    it('retries to get the artwork if it failed', function() {
+      spotify.getArtwork.callsArgWith(0, true);
+
+      server = new SpotifyRemoteServer(io, spotify);
+      server.getCurrentArtwork();
+
+      clock.tick(251);
+
+      assert.equal(spotify.getArtwork.callCount, 2);
+    });
+
+    it('retries to get the artwork if the path is undefined', function() {
+      spotify.getArtwork.callsArgWith(0, null, undefined);
+
+      server = new SpotifyRemoteServer(io, spotify);
+      server.getCurrentArtwork();
+
+      clock.tick(251);
+
+      assert.equal(spotify.getArtwork.callCount, 2);
+    });
+
+    it('retries to get the artwork if it cannot read the path', function() {
+      fs.readFile = function(path, cb) {
+        cb(true);
+      };
+
+      spotify.getArtwork.callsArgWith(0, null, '/path/to/artwork');
+
+      server = new SpotifyRemoteServer(io, spotify);
+      server.getCurrentArtwork();
+
+      clock.tick(251);
+
+      assert.equal(spotify.getArtwork.callCount, 2);
+    });
+  });
+
+  describe('#getCurrentTrack', function() {
+    var clock;
+
+    beforeEach(function() {
+      clock = sinon.useFakeTimers();
+    });
+
+    afterEach(function() {
+      clock.restore();
+    });
+
+    it('retries to get the track from spotify if it failed', function() {
+      spotify.getTrack.callsArgWith(0, true);
+
+      server = new SpotifyRemoteServer(io, spotify);
+      server.getCurrentTrack();
+
+      clock.tick(251);
+
+      assert.equal(spotify.getTrack.callCount, 2);
+    });
+  });
+
   describe('#handleDisconnect', function() {
     it('stops polling spotify when there is no connection', function(done) {
       server = new SpotifyRemoteServer(io, spotify, {interval: 0});
@@ -237,6 +304,60 @@ describe('SpotifyRemoteServer', function() {
       server.handleConnection({emit: function() {}, on: function(){}});
 
       assert(emitSpy.notCalled);
+    });
+  });
+
+  describe('#retry', function() {
+    var clock;
+
+    beforeEach(function() {
+      clock = sinon.useFakeTimers();
+    });
+
+    afterEach(function() {
+      clock.restore();
+    });
+
+    it('automatically retries the given function after X ms', function() {
+      server = new SpotifyRemoteServer(io, spotify);
+      var fn = sinon.spy();
+
+      server.retry(fn, 10);
+
+      clock.tick(11);
+
+      assert(fn.called);
+    });
+
+    it('does not retry the same function more than 5 times within 10 seconds', function() {
+      server = new SpotifyRemoteServer(io, spotify);
+      var fn = sinon.spy();
+
+      for(var i = 0; i < 6; i++) {
+        server.retry(fn, 10);
+      }
+
+      clock.tick(100);
+
+      assert.equal(fn.callCount, 5);
+    });
+
+    it('retries the same function more again after 10 seconds', function() {
+      server = new SpotifyRemoteServer(io, spotify);
+      var fn = sinon.spy();
+
+      for(var i = 0; i < 6; i++) {
+        server.retry(fn, 10);
+      }
+
+      // trigger reset of block
+      clock.tick(11000);
+
+      server.retry(fn, 10);
+
+      clock.tick(11);
+
+      assert.equal(fn.callCount, 6);
     });
   });
 });
