@@ -44,7 +44,7 @@ describe('SpotifyRemoteServer', function() {
   });
 
   afterEach(function() {
-    server.stopIntervals();
+    server.stopPolling();
   });
 
   after(function() {
