@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.0.4 (to be released)
+## 0.0.4 (Released 8th February, 2013)
 
 * introduce a design, thank you @mbesser
 * stop polling for artwork when there is no active socket connection
