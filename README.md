@@ -71,14 +71,24 @@ well, but of course there's a lot to do. Things that come to mind are:
 
 ## Contributing
 
-Pull requests are very welcome, hack away and contribute! There is a tiny test
-suite which you can run with:
+To get started with spotify-remote development, install it locally:
+
+```
+$ git clone https://github.com/rmehner/spotify-remote.git
+$ cd spotify-remote
+$ npm install
+$ npm start
+$ open http://localhost:3333
+```
+
+To run the test suite, do the following:
 
 ```
 $ npm test
 ```
 
-If you need any help, don't hesitate to ask!
+**Pull requests are very welcome: hack away and contribute!** If you need any
+help, don't hesitate to ask!
 
 ## License
 
