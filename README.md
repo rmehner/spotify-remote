@@ -30,7 +30,7 @@ altogether.
 ## Update
 
 ```
-$ npm install -g spotify-remote
+$ npm update -g spotify-remote
 ```
 
 ## Starting and using spotify-remote
