@@ -203,6 +203,39 @@ describe('SpotifyRemoteServer', function() {
     });
   });
 
+  describe('#getCurrentState', function() {
+    it('only gets the track once when it has not changed', function() {
+      var state = {track_id: 'spotify:track:1'};
+      spotify.getState.callsArgWith(0, null, state);
+
+      var track = {id: 'spotify:track:1'};
+      spotify.getTrack.callsArgWith(0, null, track);
+
+      server = new SpotifyRemoteServer(io, spotify);
+      server.getCurrentState();
+      server.getCurrentState();
+
+      assert.equal(spotify.getTrack.callCount, 1);
+    });
+
+    it('gets the track information when the track has changed trolololo', function() {
+      var calls = 0;
+
+      spotify.getState = function(cb) {
+        cb(null, {track_id: 'spotify:track:' + calls++});
+      };
+
+      var track = {id: 'spotify:track:0'};
+      spotify.getTrack.callsArgWith(0, null, track);
+
+      server = new SpotifyRemoteServer(io, spotify);
+      server.getCurrentState();
+      server.getCurrentState();
+
+      assert.equal(spotify.getTrack.callCount, 2);
+    });
+  });
+
   describe('#getCurrentArtwork', function() {
     var clock;
 
