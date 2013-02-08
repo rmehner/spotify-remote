@@ -6,6 +6,7 @@
 * stop polling for artwork when there is no active socket connection
 * reduce polling interval for state, reducing CPU usage, thank you @mrnugget
 * make this thing homescreen friendly
+* reduce CPU usage by only polling for track and artwork when it actually has changed
 
 ## 0.0.3 (Released 4th February, 2013)
 
