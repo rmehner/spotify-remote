@@ -163,7 +163,7 @@ input[type='range']::-webkit-slider-thumb {
 @media screen and (min-height: 580px) {
 
   .remote-wrapper {
-    max-height: 37.5rem;
+    max-height: 700px;
   }
 }
 
