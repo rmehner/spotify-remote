@@ -3,7 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width">
+  <meta name="viewport" id="vp" content="initial-scale=1.0,width=device-width" />
+  <!-- don't do width=device-width for iPhone 5 because it's somehow fucked -->
+  <meta name="viewport" id="vp" content="initial-scale=1.0" media="(device-height: 568px)" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <title>Spotify-Remote</title>
   <link rel="stylesheet" href="/style.css">

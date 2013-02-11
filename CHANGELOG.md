@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.7 (???)
+
+* Fix "Add to homescreen" on iPhone 5
+
 ## 0.0.6 (February 11th, 2013)
 
 * Add html5slider by @fryn to support range-inputs in Firefox
