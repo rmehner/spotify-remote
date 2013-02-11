@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.8 (February 11th, 2013)
+
+* Fix bug when testing if Spotify is running
+
 ## 0.0.7 (February 11th, 2013)
 
 * Fix "Add to homescreen" on iPhone 5
