@@ -43,29 +43,6 @@ a {
   padding: .5em 1em;
 }
 
-/* --- override webkits default input appearance --- */
-
-input[type='range'] {
-  -webkit-appearance: none;
-  position: relative;
-  width: 100%;
-  height: 1em;
-  padding: 1em;
-  background: rgba(255,255,255,.2);
-  border-radius: 1em;
-  box-shadow: 0 0 5px #666;
-}
-
-input[type='range']::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 1.5em;
-  height: 1.5em;
-  background: #e1e1e1;
-  border: .5em solid transparent;
-  border-radius: 50%;
-  box-shadow: 0 0 5px #666;
-}
-
 /* --- time controls --- */
 
 .time input[type='range'] {
