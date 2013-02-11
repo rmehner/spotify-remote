@@ -8,6 +8,8 @@ spotify-remote allows you to control Spotify from a browser. Currently it works
 by talking to Spotify via its AppleScript interface, so only OS X is supported
 at the moment.
 
+![RIP MCA](http://coding-robin.de/images/pictures/spotify-remote.png)
+
 ## Aim
 
 spotify-remote tries to be a lightweight client-server solution for controlling
