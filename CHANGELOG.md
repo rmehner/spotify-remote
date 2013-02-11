@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.6 (???)
+
+* Add html5slider by @fryn to support range-inputs in Firefox
+
 ## 0.0.5 (February 11th, 2013)
 
 * Fix Lion compatibility by using upstream patch from @andrehavemann in spotify-node-applescript

@@ -55,6 +55,7 @@ $ PORT=1337 spotify-remote
 * [Thorsten Ball](http://mrnugget.github.com)
 * [Matti Besser](http://mattibesser.com) for the first design
 * [André Haveman](https://github.com/andrehaveman) for [spotify-node-applescript](https://github.com/andrehaveman/spotify-node-applescript)
+* [Frank Yan](https://github.com/fryn) for [html5slider](https://github.com/fryn/html5slider)
 
 ## Todo
 
