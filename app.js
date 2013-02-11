@@ -36,8 +36,15 @@ function handleRequest(req, res) {
   });
 }
 
-app.listen(process.env.PORT || 3333, function() {
-  console.log('Your spotify remote is awaiting commands on: http://localhost:' + app.address().port);
-  console.log('CTRL+C to quit.');
+spotify.isRunning(function(isRunning) {
+  if (!isRunning) {
+    console.log('Could not launch spotify-remote. Please make sure Spotify is running.');
+    return process.exit(1);
+  }
+
+  app.listen(process.env.PORT || 3333, function() {
+    console.log('Your spotify remote is awaiting commands on: http://localhost:' + app.address().port);
+    console.log('CTRL+C to quit.');
+  });
+  new SpotifyRemoteServer(io, spotify);
 });
-new SpotifyRemoteServer(io, spotify);
