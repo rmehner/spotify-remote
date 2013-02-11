@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.5 (Released 11th February, 2013)
+
+* Fix Lion compatibility by using upstream patch from @andrehavemann in spotify-node-applescript
+* The height should have a cap now, so it doesn't grow beyond sense
+
 ## 0.0.4 (Released 8th February, 2013)
 
 * introduce a design, thank you @mbesser
