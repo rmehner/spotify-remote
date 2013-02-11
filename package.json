@@ -1,7 +1,7 @@
 {
   "name": "spotify-remote",
   "preferGlobal": true,
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Control spotify from your browser",
   "main": "app.js",
   "bin": "./app.js",

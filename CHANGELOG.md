@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.0.6 (???)
+## 0.0.6 (February 11th, 2013)
 
 * Add html5slider by @fryn to support range-inputs in Firefox
 
