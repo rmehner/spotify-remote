@@ -1,8 +1,9 @@
 # Changelog
 
-## 0.0.7 (???)
+## 0.0.7 (February 11th, 2013)
 
 * Fix "Add to homescreen" on iPhone 5
+* Do not start spotify-remote if Spotify is not running
 
 ## 0.0.6 (February 11th, 2013)
 
