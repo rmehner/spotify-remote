@@ -234,6 +234,23 @@ describe('SpotifyRemoteServer', function() {
 
       assert.equal(spotify.getTrack.callCount, 2);
     });
+
+    it('does not try to get artwork and track when returned state is "false"', function() {
+      var state = false;
+      spotify.getState.callsArgWith(0, null, state);
+
+      var track = {id: 'spotify:track:0'};
+      spotify.getTrack.callsArgWith(0, null, track);
+
+      var artwork = '/path/to/artwork';
+      spotify.getArtwork.callsArgWith(0, null, artwork);
+
+      server = new SpotifyRemoteServer(io, spotify);
+      server.getCurrentState();
+
+      assert.equal(spotify.getTrack.callCount, 0);
+      assert.equal(spotify.getArtwork.callCount, 0);
+    });
   });
 
   describe('#getCurrentArtwork', function() {
@@ -305,6 +322,18 @@ describe('SpotifyRemoteServer', function() {
       clock.tick(251);
 
       assert.equal(spotify.getTrack.callCount, 2);
+    });
+
+    it('does nothing when returned track is "false"', function() {
+      var track = false;
+      spotify.getTrack.callsArgWith(0, null, track);
+
+      server = new SpotifyRemoteServer(io, spotify);
+      server.handleConnection(socket);
+
+      server.getCurrentTrack();
+
+      assert.equal(emitSpy.withArgs('currentTrack').callCount, 0);
     });
   });
 
