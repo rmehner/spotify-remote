@@ -12,6 +12,7 @@
   SpotifyRemoteClient.prototype.init = function(io) {
     this.socket = io.connect(this.host);
 
+    this.socket.on('spotifyIsNotRunning', this.spotifyIsNotRunning.bind(this));
     this.socket.on('currentTrack', this.showCurrentTrack.bind(this));
     this.socket.on('currentState', this.showCurrentState.bind(this));
     this.socket.on('currentArtwork', this.showCurrentArtwork.bind(this));
@@ -86,6 +87,14 @@
         this._positionRangeBlocked = false;
       }.bind(this)
     );
+  };
+
+  SpotifyRemoteClient.prototype.spotifyIsNotRunning = function() {
+    this.$('artist').textContent             = 'Spotify is not running';
+    this.$('name').textContent               = '';
+    this.$('duration').textContent           = '0.0';
+    this.$('current-play-state').textContent = '';
+    this.$('position').setAttribute('max', 1.0);
   };
 
   SpotifyRemoteClient.prototype.showCurrentTrack = function(track) {
