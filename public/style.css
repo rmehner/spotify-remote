@@ -41,11 +41,26 @@ a {
 .ui-container {
   position: relative;
   padding: .5em 1em;
+  margin: 1em 0;
+}
+
+.ui-container:before,
+.ui-container:after {
+  content: " ";
+  display: table;
+}
+
+.ui-container:after {
+  clear: both;
 }
 
 /* --- time controls --- */
 
-.time input[type='range'] {
+input[type="range"] {
+  width: 100%;
+}
+
+.time input[type="range"] {
   display: block;
   width: 65%;
   top: -.5em;
@@ -76,22 +91,32 @@ a {
 /* --- state controls --- */
 
 .button {
-  display: inline-block;
-  width: 90px;
+  display: block;
+  width: 33%;
   padding: .5em 1em;
-  background: #bada55;
+  margin: 0;
+  float: left;
+  background: -webkit-linear-gradient(#bada55, #788c37);
+  background: -moz-linear-gradient(#bada55, #788c37);
+  background: -o-linear-gradient(#bada55, #788c37);
+  background: -ms-linear-gradient(#bada55, #788c37);
+  background: linear-gradient(#bada55, #788c37);
+  border-left: 1px solid rgba(255,255,255,.3);
+  border-right: 1px solid rgba(0,0,0,.3);
+  box-shadow: inset 0 2px 0 rgba(255,255,255,.5), inset 0 -2px 0 rgba(0,0,0,.3);
   color: rgba(0,0,0,0.5);
-  box-shadow: 0 5px 0 #333;
   font-weight: bold;
   text-align: center;
 }
 
 .button:first-of-type {
+  border-left: none;
   border-top-left-radius: 1em;
   border-bottom-left-radius: 1em;
 }
 
 .button:last-of-type {
+  border-right: none;
   border-top-right-radius: 1em;
   border-bottom-right-radius: 1em;
 }
@@ -116,7 +141,7 @@ a {
 }
 
 .ui-container {
-  text-align: center;
+  clear: both;
 }
 
 /* --- artist, title, album cover --- */
