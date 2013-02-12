@@ -37,7 +37,7 @@ function handleRequest(req, res) {
 }
 
 spotify.isRunning(function(err, isRunning) {
-  if (!isRunning) {
+  if (err || !isRunning) {
     console.log('Could not launch spotify-remote. Please make sure Spotify is running.');
     return process.exit(1);
   }
