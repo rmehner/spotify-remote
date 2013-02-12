@@ -218,7 +218,7 @@ describe('SpotifyRemoteServer', function() {
       assert.equal(spotify.getTrack.callCount, 1);
     });
 
-    it('gets the track information when the track has changed trolololo', function() {
+    it('gets the track information when the track has changed', function() {
       var calls = 0;
 
       spotify.getState = function(cb) {
