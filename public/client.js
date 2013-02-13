@@ -94,6 +94,9 @@
 
     this.spotifyIsNotRunning = true;
 
+    delete this.currentTrack;
+    delete this.currentState;
+
     this.$('artist').textContent             = 'Spotify is not running';
     this.$('name').textContent               = '';
     this.$('duration').textContent           = '0.0';
@@ -102,6 +105,7 @@
   };
 
   SpotifyRemoteClient.prototype.showCurrentTrack = function(track) {
+    this.spotifyIsNotRunning = false;
     // don't rerender stuff when nothing has changed
     if (this.currentTrack && this.currentTrack.id === track.id) {
       return;
@@ -116,6 +120,7 @@
   };
 
   SpotifyRemoteClient.prototype.showCurrentState = function(state) {
+    this.spotifyIsNotRunning = false;
     if (!this.currentState || this.currentState.position !== state.position) {
       this.$('played-time').textContent = this.formatTime(parseInt(state.position, 10));
 
@@ -136,6 +141,7 @@
   };
 
   SpotifyRemoteClient.prototype.showCurrentArtwork = function(artwork) {
+    this.spotifyIsNotRunning = false;
     this.$('artwork').src = 'data:image/png;base64,' + artwork;
   };
 
