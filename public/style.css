@@ -118,7 +118,24 @@ input[type="range"]::-ms-track {
 
 .page-controls {
   position: absolute;
+  width: 100%;
+  top: 50%;
   z-index: 100;
+}
+
+.page-switch {
+  position: relative;
+  display: block;
+  padding: 1em;
+  background: #ccc;
+}
+
+.page-switch[href="#remote"] {
+  float: left;
+}
+
+.page-switch[href="#search"] {
+  float: right;
 }
 
 /* --- spotify-remote info --- */
@@ -136,8 +153,10 @@ input[type="range"]::-ms-track {
   display: block;
   right: 0;
   top: 0;
-  padding: 1em;
+  padding: .5rem;
   background: #ccc;
+  font-size: 2em;
+  z-index: 101;
 }
 
 /* --- time controls --- */
