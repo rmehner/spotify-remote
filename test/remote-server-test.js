@@ -248,7 +248,7 @@ describe('SpotifyRemoteServer', function() {
     });
 
     it('retries to get the artwork if it failed', function() {
-      spotify.getArtwork.callsArgWith(0, true);
+      spotify.getArtwork.callsArgWith(0, 'testerror');
 
       server = new SpotifyRemoteServer(io, spotify);
       server.getCurrentArtwork();
@@ -271,7 +271,7 @@ describe('SpotifyRemoteServer', function() {
 
     it('retries to get the artwork if it cannot read the path', function() {
       fs.readFile = function(path, cb) {
-        cb(true);
+        cb('testerror');
       };
 
       spotify.getArtwork.callsArgWith(0, null, '/path/to/artwork');
