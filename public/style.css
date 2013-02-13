@@ -144,6 +144,14 @@ input[type="range"] {
   clear: both;
 }
 
+input[type="range"]::-webkit-slider-thumb,
+input[type="range"]::-moz-slider-thumb,
+input[type="range"]::-o-slider-thumb,
+input[type="range"]::slider-thumb {
+  width: 25px;
+  height: 25px;
+}
+
 /* --- artist, title, album cover --- */
 
 .artwork {
