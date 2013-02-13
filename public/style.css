@@ -23,7 +23,10 @@ a {
 }
 
 input[type="range"] {
+  position: relative;
+  top: -1em;
   width: 100%;
+  border: 1em solid transparent;
 }
 
 /* --- overriding ie10 defaults for range inputs --- */
@@ -82,7 +85,6 @@ input[type="range"]::-ms-track {
 .time input[type="range"] {
   display: block;
   width: 65%;
-  top: -.5em;
   margin: 0 auto;
 }
 
