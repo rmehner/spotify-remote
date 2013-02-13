@@ -22,29 +22,6 @@ a {
   cursor: pointer;
 }
 
-input[type="range"] {
-  width: 100%;
-}
-
-/* --- overriding ie10 defaults for range inputs --- */
-
-input[type="range"]::-ms-fill-lower,
-input[type="range"]::-ms-fill-upper {
-  background: -ms-linear-gradient(#000, #333);
-}
-
-input[type="range"]::-ms-thumb {
-  width: .75em;
-  height: .75em;
-  background: -ms-linear-gradient(#bada55, #788c37);
-  border: none;
-  border-radius: 50%;
-}
-
-input[type="range"]::-ms-track {
-  color: transparent;
-}
-
 /* --- layout --- */
 
 .remote-wrapper {
@@ -78,6 +55,10 @@ input[type="range"]::-ms-track {
 }
 
 /* --- time controls --- */
+
+input[type="range"] {
+  width: 100%;
+}
 
 .time input[type="range"] {
   display: block;
