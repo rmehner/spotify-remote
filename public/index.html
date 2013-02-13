@@ -24,35 +24,43 @@
   <!-- div.remove-wrapper gives overall dimensions and positioning -->
   <div class="remote-wrapper">
 
+    <!-- info button reveals modal window -->
+
+    <a class="info-button" href="#info" title="">I</a>
+
+    <div id="info">
+      Information about spotify-remote.
+    </div>
+
     <!-- controls for page changes -->
 
     <div class="page-controls">
-      <a href="#search" title="">search</a>
-      <a href="#remote" title="">remote</a>
+      <a class="search-button" href="#search" title="">search</a>
+      <a class="remote-button" href="#remote" title="">remote</a>
     </div>
 
     <!-- div.page-wrapper conatains several content pages -->
     <div class="page-wrapper">
 
       <!-- home to the remote itself -->
-      <div id="remote" class="page">
+      <div id="remote" class="page cf">
         <img id="artwork" class="artwork">
         <div class="control-wrapper">
-          <div class="ui-container time">
+          <div class="ui-container time cf">
             <span id="played-time" class="played-time"></span>
             <input type="range" id="position" min="0" max="100" />
             <span id="duration" class="duration"></span>
           </div>
-          <div class="ui-container">
+          <div class="ui-container cf">
             <div id="artist" class="artist"></div>
             <div id="name" class="song-title"></div>
           </div>
-          <div class="ui-container">
+          <div class="ui-container cf">
             <a id="previous" class="button previous">&lt;&lt;</a>
             <a id="current-play-state" class="button play-pause">Play</a>
             <a id="next" class="button next">&gt;&gt;</a>
           </div>
-          <div class="ui-container">
+          <div class="ui-container cf">
             <input type="range" id="current-volume" min="0" max="100" />
           </div>
         </div>

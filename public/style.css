@@ -29,6 +29,16 @@ input[type="range"] {
   border: 1em solid transparent;
 }
 
+.cf:before,
+.cf:after {
+  content: " ";
+  display: table;
+}
+
+.cf:after {
+  clear: both;
+}
+
 /* --- overriding ie10 defaults for range inputs --- */
 
 input[type="range"]::-ms-fill-lower,
@@ -57,6 +67,17 @@ input[type="range"]::-ms-track {
   width: 100%;
 }
 
+.page-wrapper {
+  min-height: 100%;
+}
+
+.page {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+
 .control-wrapper {
   position: absolute;
   bottom: 0;
@@ -72,12 +93,51 @@ input[type="range"]::-ms-track {
 
 .ui-container:before,
 .ui-container:after {
-  content: " ";
-  display: table;
 }
 
 .ui-container:after {
   clear: both;
+}
+
+/* --- pages --- */
+
+#search,
+#remote {
+  display: none;
+}
+
+#search:target {
+  display: block;
+}
+
+#remote:target {
+  display: block;
+}
+
+/* --- page controls --- */
+
+.page-controls {
+  position: absolute;
+  z-index: 100;
+}
+
+/* --- spotify-remote info --- */
+
+#info {
+  display: none;
+}
+
+#info:target {
+  display: block;
+}
+
+.info-button {
+  position: absolute;
+  display: block;
+  right: 0;
+  top: 0;
+  padding: 1em;
+  background: #ccc;
 }
 
 /* --- time controls --- */
