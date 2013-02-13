@@ -19,12 +19,15 @@ var socket = {
 };
 var spotify;
 var server;
+var clock;
 
 describe('SpotifyRemoteServer', function() {
   beforeEach(function() {
     fs.readFile = function(path, cb) {
       cb(null, artworkBuffer);
     };
+
+    clock = sinon.useFakeTimers();
 
     // that's the minimal spotify interface we use
     spotify = sinon.stub({
@@ -44,6 +47,7 @@ describe('SpotifyRemoteServer', function() {
   afterEach(function() {
     server.stopPolling();
     fs.readFile = originalReadFile;
+    clock.restore();
   });
 
   describe('#handleConnection', function() {
@@ -67,17 +71,17 @@ describe('SpotifyRemoteServer', function() {
       assert(emitSpy.calledWith('currentState', state));
     });
 
-    it('pushes the current state to the client every X ms', function(done) {
+    it('pushes the current state to the client every 500 ms', function() {
       var state = {volume: 100};
       spotify.getState.callsArgWith(0, null, state);
 
-      server = new SpotifyRemoteServer(io, spotify, {interval: 10});
+      server = new SpotifyRemoteServer(io, spotify);
       server.handleConnection(socket);
 
-      setTimeout(function() {
-        assert.equal(emitSpy.withArgs('currentState', state).callCount, 3);
-        done();
-      }, 25);
+      // enough time for two more ticks
+      clock.tick(1001);
+
+      assert.equal(emitSpy.withArgs('currentState', state).callCount, 3);
     });
 
     it('sends artwork of the track to the client', function() {
@@ -237,16 +241,6 @@ describe('SpotifyRemoteServer', function() {
   });
 
   describe('#getCurrentArtwork', function() {
-    var clock;
-
-    beforeEach(function() {
-      clock = sinon.useFakeTimers();
-    });
-
-    afterEach(function() {
-      clock.restore();
-    });
-
     it('retries to get the artwork if it failed', function() {
       spotify.getArtwork.callsArgWith(0, 'testerror');
 
@@ -286,16 +280,6 @@ describe('SpotifyRemoteServer', function() {
   });
 
   describe('#getCurrentTrack', function() {
-    var clock;
-
-    beforeEach(function() {
-      clock = sinon.useFakeTimers();
-    });
-
-    afterEach(function() {
-      clock.restore();
-    });
-
     it('retries to get the track from spotify if it failed', function() {
       spotify.getTrack.callsArgWith(0, true);
 
@@ -309,8 +293,8 @@ describe('SpotifyRemoteServer', function() {
   });
 
   describe('#handleDisconnect', function() {
-    it('stops polling spotify when there is no connection', function(done) {
-      server = new SpotifyRemoteServer(io, spotify, {interval: 0});
+    it('stops polling spotify when there is no connection', function() {
+      server = new SpotifyRemoteServer(io, spotify);
       server.handleConnection(socket);
 
       assert(spotify.getState.called);
@@ -318,11 +302,9 @@ describe('SpotifyRemoteServer', function() {
       server.handleDisconnect(socket);
       spotify.getState.reset();
 
-      setTimeout(function() {
-        assert(!spotify.getState.called);
+      clock.tick(501);
 
-        done();
-      }, 15);
+      assert(!spotify.getState.called);
     });
 
     it('does not send to disconnected sockets', function() {
@@ -341,16 +323,6 @@ describe('SpotifyRemoteServer', function() {
   });
 
   describe('#retry', function() {
-    var clock;
-
-    beforeEach(function() {
-      clock = sinon.useFakeTimers();
-    });
-
-    afterEach(function() {
-      clock.restore();
-    });
-
     it('automatically retries the given function after X ms', function() {
       server = new SpotifyRemoteServer(io, spotify);
       var fn = sinon.spy();
