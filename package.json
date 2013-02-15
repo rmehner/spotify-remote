@@ -10,12 +10,12 @@
   },
   "contributors": [
     {
-       "name": "Thorsten Ball",
-       "email": "mrnugget@gmail.com"
+      "name": "Thorsten Ball",
+      "email": "mrnugget@gmail.com"
     },
     {
-       "name": "Matti Besser",
-       "email": "mail@mattibesser.com"
+      "name": "Matti Besser",
+      "email": "mail@mattibesser.com"
     }
   ],
   "dependencies": {
