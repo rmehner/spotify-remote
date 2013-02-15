@@ -20,7 +20,7 @@
   ],
   "dependencies": {
     "socket.io": "~0.9.13",
-    "spotify-node-applescript": "git://github.com/rmehner/spotify-node-applescript.git#improve_get_artwork_and_get_state_improvements"
+    "spotify-node-applescript": "~0.2.0"
   },
   "devDependencies": {
     "sinon": "~1.5.2",
