@@ -107,7 +107,7 @@
       this.$('played-time').textContent = this.formatTime(parseInt(state.position, 10));
 
       if (!this._positionRangeBlocked) {
-        this.$('position').value = state.position.replace(',', '.');
+        this.$('position').value = state.position;
       }
     }
 
