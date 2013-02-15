@@ -20,7 +20,7 @@
   ],
   "dependencies": {
     "socket.io": "~0.9.13",
-    "spotify-node-applescript": "~0.2.0"
+    "spotify-node-applescript": "~0.2.1"
   },
   "devDependencies": {
     "sinon": "~1.5.2",
