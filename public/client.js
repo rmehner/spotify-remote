@@ -104,7 +104,7 @@
 
   SpotifyRemoteClient.prototype.showCurrentState = function(state) {
     if (!this.currentState || this.currentState.position !== state.position) {
-      this.$('played-time').textContent = this.formatTime(parseInt(state.position, 10));
+      this.$('played-time').textContent = this.formatTime(state.position);
 
       if (!this._positionRangeBlocked) {
         this.$('position').value = state.position;
