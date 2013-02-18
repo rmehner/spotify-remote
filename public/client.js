@@ -10,12 +10,28 @@
   };
 
   SpotifyRemoteClient.prototype.init = function(io) {
-    this.socket = io.connect(this.host);
+    this.io = io;
+
+    this.connect();
+    this.bindDOMEvents();
+  };
+
+  SpotifyRemoteClient.prototype.connect = function() {
+    this.socket = this.io.connect(this.host);
 
     this.socket.on('currentTrack', this.showCurrentTrack.bind(this));
     this.socket.on('currentState', this.showCurrentState.bind(this));
     this.socket.on('currentArtwork', this.showCurrentArtwork.bind(this));
+  };
 
+  SpotifyRemoteClient.prototype.disconnect = function() {
+    this.socket.disconnect();
+    this.socket.removeAllListeners();
+
+    delete this.socket;
+  };
+
+  SpotifyRemoteClient.prototype.bindDOMEvents = function() {
     document.addEventListener(
       this._canTouchThis ? 'touchstart' : 'click',
       function(event) {
@@ -27,7 +43,7 @@
 
         if (!command) return;
 
-        this.socket.emit(command);
+        this.emit(command);
         event.preventDefault();
       }.bind(this)
     );
@@ -45,7 +61,7 @@
           189: 'volumeDown'  // -
         }[event.keyCode];
 
-        if (command) this.socket.emit(command);
+        if (command) this.emit(command);
       }.bind(this)
     );
 
@@ -53,7 +69,7 @@
     this.$('current-volume').addEventListener(
       'change',
       function(event) {
-        this.socket.emit('setVolume', event.target.value);
+        this.emit('setVolume', event.target.value);
       }.bind(this)
     );
 
@@ -82,7 +98,7 @@
     this.$('position').addEventListener(
       this._canTouchThis ? 'touchend' : 'mouseup',
       function(event) {
-        this.socket.emit('jumpTo', event.target.value);
+        this.emit('jumpTo', event.target.value);
         this._positionRangeBlocked = false;
       }.bind(this)
     );
@@ -124,6 +140,10 @@
 
   SpotifyRemoteClient.prototype.showCurrentArtwork = function(artwork) {
     this.$('artwork').src = 'data:image/png;base64,' + artwork;
+  };
+
+  SpotifyRemoteClient.prototype.emit = function(event, data) {
+    if (this.socket) this.socket.emit(event, data);
   };
 
   // jQuery.
