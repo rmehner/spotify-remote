@@ -14,10 +14,15 @@
 
     this.connect();
     this.bindDOMEvents();
+    this.bindVisibilityEvents();
   };
 
   SpotifyRemoteClient.prototype.connect = function() {
-    this.socket = this.io.connect(this.host);
+    if (!this.socket) {
+      this.socket = this.io.connect(this.host);
+    } else {
+      this.socket.socket.connect(); // reuse previous socket and simply reconnect
+    }
 
     this.socket.on('currentTrack', this.showCurrentTrack.bind(this));
     this.socket.on('currentState', this.showCurrentState.bind(this));
@@ -27,8 +32,6 @@
   SpotifyRemoteClient.prototype.disconnect = function() {
     this.socket.disconnect();
     this.socket.removeAllListeners();
-
-    delete this.socket;
   };
 
   SpotifyRemoteClient.prototype.bindDOMEvents = function() {
@@ -102,6 +105,26 @@
         this._positionRangeBlocked = false;
       }.bind(this)
     );
+  };
+
+  SpotifyRemoteClient.prototype.bindVisibilityEvents = function() {
+    var self                 = this;
+    var bindVisibilityChange = function(propertyName, eventName) {
+      document.addEventListener(
+        eventName,
+        function() {
+          document[propertyName] ? self.disconnect() : self.connect();
+        }
+      )
+    };
+
+    if (typeof document.hidden !== 'undefined') {
+      bindVisibilityChange('hidden', 'visibilitychange');
+    } else if (typeof document.webkitHidden !== 'undefined') {
+      bindVisibilityChange('webkitHidden', 'webkitvisibilitychange');
+    } else if (typeof document.msHidden !== 'undefined') {
+      bindVisibilityChange('msHidden', 'msvisibilitychange');
+    }
   };
 
   SpotifyRemoteClient.prototype.showCurrentTrack = function(track) {
