@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.0 (???)
+
+* Stop listening on the socket, when page is not visible
+
 ## 0.0.8 (February 11th, 2013)
 
 * Fix bug when testing if Spotify is running
