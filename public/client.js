@@ -18,6 +18,8 @@
   };
 
   SpotifyRemoteClient.prototype.connect = function() {
+    if (this.socket && this.socket.socket.connected) return;
+
     if (!this.socket) {
       this.socket = this.io.connect(this.host);
     } else {
