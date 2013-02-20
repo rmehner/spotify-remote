@@ -128,7 +128,7 @@
       return bindVisibilityChange('msvisibilitychange', 'msHidden');
     }
 
-    if (typeof window.onpagehide !== 'undefined' && typeof window.onpageshow !== 'undefined') {
+    if (typeof window.onpagehide !== 'undefined') {
       window.addEventListener('pagehide', this.disconnect.bind(this));
       window.addEventListener('pageshow', this.connect.bind(this));
     }
