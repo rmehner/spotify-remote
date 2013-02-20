@@ -121,11 +121,16 @@
     };
 
     if (typeof document.hidden !== 'undefined') {
-      bindVisibilityChange('visibilitychange', 'hidden');
+      return bindVisibilityChange('visibilitychange', 'hidden');
     } else if (typeof document.webkitHidden !== 'undefined') {
-      bindVisibilityChange('webkitvisibilitychange', 'webkitHidden');
+      return bindVisibilityChange('webkitvisibilitychange', 'webkitHidden');
     } else if (typeof document.msHidden !== 'undefined') {
-      bindVisibilityChange('msvisibilitychange', 'msHidden');
+      return bindVisibilityChange('msvisibilitychange', 'msHidden');
+    }
+
+    if (typeof window.onpagehide !== 'undefined' && typeof window.onpageshow !== 'undefined') {
+      window.addEventListener('pagehide', this.disconnect.bind(this));
+      window.addEventListener('pageshow', this.connect.bind(this));
     }
   };
 
