@@ -111,7 +111,7 @@
 
   SpotifyRemoteClient.prototype.bindVisibilityEvents = function() {
     var self                 = this;
-    var bindVisibilityChange = function(propertyName, eventName) {
+    var bindVisibilityChange = function(eventName, propertyName) {
       document.addEventListener(
         eventName,
         function() {
@@ -121,11 +121,11 @@
     };
 
     if (typeof document.hidden !== 'undefined') {
-      bindVisibilityChange('hidden', 'visibilitychange');
+      bindVisibilityChange('visibilitychange', 'hidden');
     } else if (typeof document.webkitHidden !== 'undefined') {
-      bindVisibilityChange('webkitHidden', 'webkitvisibilitychange');
+      bindVisibilityChange('webkitvisibilitychange', 'webkitHidden');
     } else if (typeof document.msHidden !== 'undefined') {
-      bindVisibilityChange('msHidden', 'msvisibilitychange');
+      bindVisibilityChange('msvisibilitychange', 'msHidden');
     }
   };
 
