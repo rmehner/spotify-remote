@@ -152,9 +152,7 @@
     if (!this.currentState || this.currentState.position !== state.position) {
       this.$('played-time').textContent = this.formatTime(state.position);
 
-      if (!this._positionRangeBlocked) {
-        this.$('position').value = state.position;
-      }
+      if (!this._positionRangeBlocked) this.$('position').value = state.position;
     }
 
     if (!this.currentState || this.currentState.state !== state.state) {
