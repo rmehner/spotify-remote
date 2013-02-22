@@ -117,7 +117,7 @@
         function() {
           document[propertyName] ? self.disconnect() : self.connect();
         }
-      )
+      );
     };
 
     if (typeof document.hidden !== 'undefined') {
