@@ -26,6 +26,16 @@ input[type="range"] {
   width: 100%;
 }
 
+.cf:before,
+.cf:after {
+  content: " ";
+  display: table;
+}
+
+.cf:after {
+  clear: both;
+}
+
 /* --- overriding ie10 defaults for range inputs --- */
 
 input[type="range"]::-ms-fill-lower,
@@ -54,6 +64,17 @@ input[type="range"]::-ms-track {
   width: 100%;
 }
 
+.page-wrapper {
+  min-height: 100%;
+}
+
+.page {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+
 .control-wrapper {
   position: absolute;
   bottom: 0;
@@ -69,12 +90,55 @@ input[type="range"]::-ms-track {
 
 .ui-container:before,
 .ui-container:after {
-  content: " ";
-  display: table;
 }
 
 .ui-container:after {
   clear: both;
+}
+
+/* --- pages --- */
+
+// Search is initially hidden
+#search {
+  display: none;
+}
+
+#artist-detail {
+  display: none;
+}
+
+#album-detail {
+  display: none;
+}
+
+// This is the start page, so show meaaaa! Uhhhh! — James Hetfield
+#remote {
+  display: block;
+}
+
+
+/* --- page controls --- */
+
+.page-controls {
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  z-index: 100;
+}
+
+.page-switch {
+  position: relative;
+  display: block;
+  padding: 1em;
+  background: #ccc;
+}
+
+.page-switch[href="#remote"] {
+  float: left;
+}
+
+.page-switch[href="#search"] {
+  float: right;
 }
 
 /* --- time controls --- */
@@ -187,6 +251,28 @@ input[type="range"]::slider-thumb {
   font-weight: bold;
 }
 
+#search {
+  display: none;
+}
+
+#search-results {
+  overflow: scroll;
+}
+
+.tracks-search-result, .albums-search-result, .artists-search-result {
+  display: block;
+  color: #bada55;
+  background: -webkit-linear-gradient(#555, #333);
+  padding: 5px;
+}
+
+.tracks-search-result:hover, .album-search-result:hover {
+  color: #bada55;
+}
+
+.show-more-results {
+  display: none;
+}
 /* --- media query to avoid ugly vertical scaling --- */
 
 @media screen and (min-height: 580px) {
@@ -212,4 +298,3 @@ input[type="range"]::slider-thumb {
     box-shadow: 0 0 10px #666;
   }
 }
-

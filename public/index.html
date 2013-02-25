@@ -22,27 +22,85 @@
   <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
+  <!-- div.remove-wrapper gives overall dimensions and positioning -->
   <div class="remote-wrapper">
-    <img id="artwork" class="artwork">
-    <div class="control-wrapper">
-      <div class="ui-container time">
-        <span id="played-time" class="played-time"></span>
-        <input type="range" id="position" min="0" max="100" />
-        <span id="duration" class="duration"></span>
-      </div>
-      <div class="ui-container">
-        <div id="artist" class="artist"></div>
-        <div id="name" class="song-title"></div>
-      </div>
-      <div class="ui-container">
-        <a id="previous" class="button previous">&lt;&lt;</a>
-        <a id="current-play-state" class="button play-pause">Play</a>
-        <a id="next" class="button next">&gt;&gt;</a>
-      </div>
-      <div class="ui-container">
-        <input type="range" id="current-volume" min="0" max="100" />
-      </div>
+
+    <!-- controls for page changes -->
+
+    <div class="page-controls">
+      <a class="page-switch" href="#search" data-show-page="search">search</a>
+      <a class="page-switch" href="#remote" data-show-page="remote">remote</a>
     </div>
+
+    <!-- div.page-wrapper conatains several content pages -->
+    <div class="page-wrapper">
+
+      <!-- home to the remote itself -->
+      <div id="remote" class="page cf">
+        <img id="artwork" class="artwork">
+        <div class="control-wrapper">
+          <div class="ui-container time cf">
+            <span id="played-time" class="played-time"></span>
+            <input type="range" id="position" min="0" max="100" />
+            <span id="duration" class="duration"></span>
+          </div>
+          <div class="ui-container cf">
+            <div id="artist" class="artist"></div>
+            <div id="name" class="song-title"></div>
+          </div>
+          <div class="ui-container cf">
+            <a id="previous" class="button previous">&lt;&lt;</a>
+            <a id="current-play-state" class="button play-pause">Play</a>
+            <a id="next" class="button next">&gt;&gt;</a>
+          </div>
+          <div class="ui-container cf">
+            <input type="range" id="current-volume" min="0" max="100" />
+          </div>
+        </div>
+      </div>
+
+      <!-- home to the search function -->
+      <div id="search" class="page">
+        <h2>Search</h2>
+        <form id="new-search">
+          <input type="text" id="search-term" />
+          <input type="submit" value="Search" />
+        </form>
+
+        <div id="search-results">
+          <h3>Tracks Results</h3>
+          <div id="tracks-search-results">
+          </div>
+          <h3>Albums Results</h3>
+          <div id="albums-search-results">
+          </div>
+          <h3>Artists Results</h3>
+          <div id="artists-search-results">
+          </div>
+        </div>
+      </div>
+
+      <div id="album-detail" class="page">
+        <h3>ALBUM DETAIL</h3>
+        <a class="page-switch" href="#search" data-show-page="search" data-delete-last-visited>Back to 'Search'</a>
+        <div id="album-detail-album">
+        </div>
+        <div id="album-detail-tracks">
+        </div>
+      </div>
+
+      <div id="artist-detail" class="page">
+        <h3>ARTIST DETAIL</h3>
+        <a class="page-switch" href="#search" data-show-page="search" data-delete-last-visited>Back to 'Search'</a>
+        <div id="artist-detail-artist">
+        </div>
+        <div id="artist-detail-albums">
+        </div>
+      </div>
+
+    <!-- /div.page-wrapper -->
+    </div>
+  <!-- /div.remote-wrapper -->
   </div>
   <script src="/client.js"></script>
   <script src="/html5slider.js"></script>
