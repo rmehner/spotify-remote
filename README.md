@@ -65,7 +65,7 @@ This thing is work in progress and the result of a hack day. It's working relati
 well, but of course there's a lot to do. Things that come to mind are:
 
 * Linux support (Spotify is supposed to have a DBUS-Interface)
-* Search for tracks, albums and artist (WIP in [search_function branch](https://github.com/rmehner/spotify-remote/tree/search_function))
+* Search for tracks, albums and artist (WIP in [search_function branch](https://github.com/rmehner/spotify-remote/tree/add_search_function))
 * Windows support (if anyone is up to it)
 * Make it even more battery friendly
 * Test & fix on Android devices
