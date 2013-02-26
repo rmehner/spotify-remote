@@ -361,12 +361,14 @@
           $newSearchResults.appendChild(el);
         });
 
-        var $showMore         = document.createElement('a');
-        $showMore.className   = 'show-more';
-        $showMore.href        = '#';
-        $showMore.textContent = 'Show more';
-        $showMore.rel         = searchResultsId;
-        $newSearchResults.appendChild($showMore);
+        if (elements.length >= 3) {
+          var $showMore         = document.createElement('a');
+          $showMore.className   = 'show-more';
+          $showMore.href        = '#';
+          $showMore.textContent = 'Show more';
+          $showMore.rel         = searchResultsId;
+          $newSearchResults.appendChild($showMore);
+        }
       } else {
         $newSearchResults.appendChild(this.createNoSearchResultElement());
       }
