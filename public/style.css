@@ -250,6 +250,9 @@ input[type="range"]::slider-thumb {
 #new-search {
   text-align: center;
 }
+#new-search input {
+  font-size: 1.2em;
+}
 
 #search-results h3 {
   padding: 0.5em;

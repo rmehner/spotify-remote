@@ -93,7 +93,10 @@
       'submit',
       function(event) {
         event.preventDefault();
-        var searchTerm = this.$('search-term').value;
+        var $searchInput = this.$('search-term');
+        var searchTerm   = $searchInput.value;
+
+        $searchInput.blur();
 
         if (searchTerm === '') return;
 
