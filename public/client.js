@@ -114,9 +114,7 @@
 
   SpotifyRemoteClient.prototype.showCurrentTrack = function(track) {
     // don't rerender stuff when nothing has changed
-    if (this.currentTrack && this.currentTrack.id === track.id) {
-      return;
-    }
+    if (this.currentTrack && this.currentTrack.id === track.id) return;
 
     this.$('artist').textContent   = track.artist;
     this.$('name').textContent     = track.name;
