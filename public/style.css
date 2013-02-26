@@ -132,10 +132,6 @@ input[type="range"]::-ms-track {
 .go-back {
   float: left;
 }
-.stick-to-right {
-  display: inline-block;
-  text-align: right;
-}
 
 /* --- time controls --- */
 
@@ -249,7 +245,15 @@ input[type="range"]::slider-thumb {
   font-weight: bold;
 }
 
-/* --- search results --- */
+/* --- search & search results --- */
+
+#new-search {
+  text-align: center;
+}
+
+#search-results h3 {
+  padding: 0.5em;
+}
 
 .tracks-search-result, .albums-search-result, .artists-search-result {
   display: block;
@@ -259,12 +263,26 @@ input[type="range"]::slider-thumb {
 }
 
 .tracks-search-result:hover, .album-search-result:hover {
+  color: #CEE486;
+}
+
+.show-more {
+  margin: 0.5em 0em 1em 0em;
+  color: #90B027;
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+}
+
+.show-more:hover {
   color: #bada55;
 }
 
-.show-more-results {
-  display: none;
+.no-search-result {
+  color: #333333;
+  text-align: center;
 }
+
 /* --- media query to avoid ugly vertical scaling --- */
 
 @media screen and (min-height: 580px) {
