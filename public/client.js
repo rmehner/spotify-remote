@@ -123,7 +123,7 @@
     );
 
     document.addEventListener(
-      'click',
+      this._canTouchThis ? 'touchstart' : 'click',
       function(event) {
         var showPage = {
           'search': this.showSearchPage,
