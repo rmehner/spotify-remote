@@ -211,7 +211,6 @@ input[type="range"]::-ms-track {
   background: -o-linear-gradient(#555, #333);
   background: -ms-linear-gradient(#555, #333);
   background: linear-gradient(#555, #333);
-  overflow: hidden;
 }
 
 .control-wrapper {
@@ -251,9 +250,6 @@ input[type="range"]::slider-thumb {
 }
 
 /* --- search results --- */
-#search-results {
-  overflow: scroll;
-}
 
 .tracks-search-result, .albums-search-result, .artists-search-result {
   display: block;
@@ -292,5 +288,6 @@ input[type="range"]::slider-thumb {
     border: .5em solid rgba(0,0,0,.2);
     border-radius: 1em;
     box-shadow: 0 0 10px #666;
+    overflow: scroll;
   }
 }
