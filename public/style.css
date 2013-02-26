@@ -111,34 +111,30 @@ input[type="range"]::-ms-track {
   display: none;
 }
 
-// This is the start page, so show meaaaa! Uhhhh! — James Hetfield
-#remote {
-  display: block;
+#search {
+  display: none;
 }
 
 
 /* --- page controls --- */
-
-.page-controls {
-  position: absolute;
-  width: 100%;
-  top: 50%;
-  z-index: 100;
+.page-nav {
+  margin-bottom: 1em;
 }
 
-.page-switch {
-  position: relative;
-  display: block;
-  padding: 1em;
-  background: #ccc;
+.open-search {
+  float: right;
 }
 
-.page-switch[href="#remote"] {
+.open-remote {
+  float: right;
+}
+
+.go-back {
   float: left;
 }
-
-.page-switch[href="#search"] {
-  float: right;
+.stick-to-right {
+  display: inline-block;
+  text-align: right;
 }
 
 /* --- time controls --- */
@@ -174,11 +170,8 @@ input[type="range"]::-ms-track {
 /* --- state controls --- */
 
 .button {
-  display: block;
-  width: 33%;
   padding: .5em 1em;
   margin: 0;
-  float: left;
   background: -webkit-linear-gradient(#bada55, #788c37);
   background: -moz-linear-gradient(#bada55, #788c37);
   background: -o-linear-gradient(#bada55, #788c37);
@@ -192,13 +185,19 @@ input[type="range"]::-ms-track {
   text-align: center;
 }
 
-.button:first-of-type {
+.control-button {
+  display: block;
+  float: left;
+  width: 33%;
+}
+
+.previous {
   border-left: none;
   border-top-left-radius: 1em;
   border-bottom-left-radius: 1em;
 }
 
-.button:last-of-type {
+.next {
   border-right: none;
   border-top-right-radius: 1em;
   border-bottom-right-radius: 1em;
@@ -251,10 +250,7 @@ input[type="range"]::slider-thumb {
   font-weight: bold;
 }
 
-#search {
-  display: none;
-}
-
+/* --- search results --- */
 #search-results {
   overflow: scroll;
 }

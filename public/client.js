@@ -295,7 +295,7 @@
       $albumDetail.textContent = albumDetailName;
 
       if (this.lastVisitedPage === 'artist-detail') {
-        var $backButton = $albumDetailParent.querySelectorAll('.page-switch')[0];
+        var $backButton = $albumDetailParent.querySelectorAll('.go-back')[0];
 
         $backButton.textContent = 'Back';
         $backButton.dataset.showPage = 'artist-detail';
