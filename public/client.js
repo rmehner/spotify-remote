@@ -37,87 +37,65 @@
   };
 
   SpotifyRemoteClient.prototype.bindDOMEvents = function() {
-    document.addEventListener(
-      this._canTouchThis ? 'touchstart' : 'click',
-      function(event) {
-        var command = {
-          'previous': 'previous',
-          'next': 'next',
-          'current-play-state': 'playPause'
-        }[event.target.id];
+    var self = this;
 
-        if (!command) return;
+    document.addEventListener(this._canTouchThis ? 'touchstart' : 'click', function(event) {
+      var command = {
+        'previous': 'previous',
+        'next': 'next',
+        'current-play-state': 'playPause'
+      }[event.target.id];
 
-        this.emit(command);
-        event.preventDefault();
-      }.bind(this)
-    );
+      if (!command) return;
 
-    document.addEventListener(
-      'keyup',
-      function(event) {
-        var command = {
-          32: 'playPause',   // space
-          78: 'next',        // n
-          80: 'previous',    // p
-          107: 'volumeUp',   // + on numpad
-          109: 'volumeDown', // - on numpad
-          187: 'volumeUp',   // +
-          189: 'volumeDown'  // -
-        }[event.keyCode];
+      self.emit(command);
+      event.preventDefault();
+    });
 
-        if (command) this.emit(command);
-      }.bind(this)
-    );
+    document.addEventListener('keyup', function(event) {
+      var command = {
+        32: 'playPause',   // space
+        78: 'next',        // n
+        80: 'previous',    // p
+        107: 'volumeUp',   // + on numpad
+        109: 'volumeDown', // - on numpad
+        187: 'volumeUp',   // +
+        189: 'volumeDown'  // -
+      }[event.keyCode];
+
+      if (command) self.emit(command);
+    });
 
     // volume control
-    this.$('current-volume').addEventListener(
-      'change',
-      function(event) {
-        this.emit('setVolume', event.target.value);
-      }.bind(this)
-    );
+    this.$('current-volume').addEventListener('change', function(event) {
+      self.emit('setVolume', event.target.value);
+    });
 
-    this.$('current-volume').addEventListener(
-      this._canTouchThis ? 'touchstart' : 'mousedown',
-      function() {
-        this._volumeRangeBlocked = true;
-      }.bind(this)
-    );
+    this.$('current-volume').addEventListener(this._canTouchThis ? 'touchstart' : 'mousedown', function() {
+      self._volumeRangeBlocked = true;
+    });
 
-    this.$('current-volume').addEventListener(
-      this._canTouchThis ? 'touchend' : 'mouseup',
-      function() {
-        this._volumeRangeBlocked = false;
-      }.bind(this)
-    );
+    this.$('current-volume').addEventListener(this._canTouchThis ? 'touchend' : 'mouseup', function() {
+      self._volumeRangeBlocked = false;
+    });
 
     // position control
-    this.$('position').addEventListener(
-      this._canTouchThis ? 'touchstart' : 'mousedown',
-      function() {
-        this._positionRangeBlocked = true;
-      }.bind(this)
-    );
+    this.$('position').addEventListener(this._canTouchThis ? 'touchstart' : 'mousedown', function() {
+      self._positionRangeBlocked = true;
+    });
 
-    this.$('position').addEventListener(
-      this._canTouchThis ? 'touchend' : 'mouseup',
-      function(event) {
-        this.emit('jumpTo', event.target.value);
-        this._positionRangeBlocked = false;
-      }.bind(this)
-    );
+    this.$('position').addEventListener(this._canTouchThis ? 'touchend' : 'mouseup', function(event) {
+      self.emit('jumpTo', event.target.value);
+      self._positionRangeBlocked = false;
+    });
   };
 
   SpotifyRemoteClient.prototype.bindVisibilityEvents = function() {
     var self                 = this;
     var bindVisibilityChange = function(eventName, propertyName) {
-      document.addEventListener(
-        eventName,
-        function() {
-          document[propertyName] ? self.disconnect() : self.connect();
-        }
-      );
+      document.addEventListener(eventName, function() {
+        document[propertyName] ? self.disconnect() : self.connect();
+      });
     };
 
     if (typeof document.hidden !== 'undefined') {
