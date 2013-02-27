@@ -3,6 +3,8 @@
 ## 0.2.0 (???)
 
 * Stop listening on the socket, when page is not visible
+* Allow jumping to a position with a single tap/click
+* Fix position control for Android's Chrome
 
 ## 0.0.8 (February 11th, 2013)
 
