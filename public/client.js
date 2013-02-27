@@ -158,13 +158,7 @@
   };
 
   SpotifyRemoteClient.prototype.showSearchPage = function() {
-    if (this.lastVisitedPage) {
-      var pageId = this.lastVisitedPage;
-    } else {
-      var pageId = 'search';
-    }
-
-    this.showPage(pageId, {savePage: true});
+    this.showPage(this.lastVisitedPage || 'search', {savePage: true});
   };
 
   SpotifyRemoteClient.prototype.showRemotePage = function() {
