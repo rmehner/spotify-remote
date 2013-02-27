@@ -203,82 +203,64 @@
     this.showRemotePage();
   };
 
-  SpotifyRemoteClient.prototype.handleAlbumsResultClick = function(target) {
-    var spotifyUrl = target.dataset.spotifyurl;
-    var lookupUrl  = 'http://ws.spotify.com/lookup/1/.json?uri=' + spotifyUrl + '&extras=track';
-    var xhr        = new XMLHttpRequest();
+  SpotifyRemoteClient.prototype.getFromSpotify = function(url, successHandler, errorHandler) {
+    var xhr = new XMLHttpRequest();
+    var parsedResponse;
 
-    xhr.open('GET', lookupUrl, true)
+    xhr.open('GET', url, true)
     xhr.onreadystatechange = function() {
       if (xhr.readyState === 4) {
         if (xhr.status === 200) {
           try {
-            var parsedResponse = JSON.parse(xhr.responseText);
+            parsedResponse = JSON.parse(xhr.responseText);
           } catch(e) {
-            this.displayAlbumDetailError('Woah, something went wrong!');
+            errorHandler('Woah! Something went wrong!');
             return;
           }
-          this.displayAlbumDetails(parsedResponse);
+          successHandler(parsedResponse);
         } else {
-          this.displayAlbumDetailError('Woah, something went wrong!');
+          errorHandler('Woah! Something went wrong!');
         }
       }
-    }.bind(this);
+    };
 
-    xhr.send()
+    xhr.send();
+  };
+
+  SpotifyRemoteClient.prototype.handleAlbumsResultClick = function(target) {
+    var spotifyUrl = target.dataset.spotifyurl;
+    var lookupUrl  = 'http://ws.spotify.com/lookup/1/.json?uri=' + spotifyUrl + '&extras=track';
+
+    this.getFromSpotify(
+      lookupUrl,
+      this.displayAlbumDetails.bind(this),
+      this.displayAlbumDetailError.bind(this)
+    );
   };
 
   SpotifyRemoteClient.prototype.handleArtistsResultClick = function(target) {
     var spotifyUrl = target.dataset.spotifyurl;
     var lookupUrl  = 'http://ws.spotify.com/lookup/1/.json?uri=' + spotifyUrl + '&extras=album';
-    var xhr        = new XMLHttpRequest();
 
-    xhr.open('GET', lookupUrl, true)
-    xhr.onreadystatechange = function() {
-      if (xhr.readyState === 4) {
-        if (xhr.status === 200) {
-          try {
-            var parsedResponse = JSON.parse(xhr.responseText);
-          } catch(e) {
-            this.displayArtistDetailError('Woah, something went wrong!');
-            return;
-          }
-          this.displayArtistDetails(parsedResponse);
-        } else {
-          this.displayArtistDetailError('Woah, something went wrong!');
-        }
-      }
-    }.bind(this);
-
-    xhr.send()
+    this.getFromSpotify(
+      lookupUrl,
+      this.displayArtistDetails.bind(this),
+      this.displayArtistDetailError.bind(this)
+    );
   };
 
   SpotifyRemoteClient.prototype.getAndDisplaySearchResults = function(type, term) {
-    var xhr = new XMLHttpRequest();
     var searchUrl = {
       albums: 'http://ws.spotify.com/search/1/album.json?q=' + term,
       artists: 'http://ws.spotify.com/search/1/artist.json?q=' + term,
       tracks: 'http://ws.spotify.com/search/1/track.json?q=' + term
     }[type];
 
-    xhr.open('GET', searchUrl, true);
-    xhr.onreadystatechange = function() {
-      if (xhr.readyState === 4) {
-        if (xhr.status === 200) {
-          try {
-            var parsedResponse = JSON.parse(xhr.responseText);
-          } catch(e) {
-            this.displaySearchError(type, 'Woah, something went wrong!');
-            return;
-          }
-          this.displaySearchResults(type, parsedResponse);
-        } else {
-          this.displaySearchError(type, 'Woah, something went wrong!');
-        }
-      }
-    }.bind(this);
-
-    xhr.send()
+    this.getFromSpotify(
+      searchUrl,
+      this.displaySearchResults.bind(this, type),
+      this.displaySearchError.bind(this, type)
+    );
   };
 
   SpotifyRemoteClient.prototype.displayAlbumDetails = function(albumDetails) {
