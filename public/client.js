@@ -346,6 +346,7 @@
   };
 
   SpotifyRemoteClient.prototype.displaySearchResults = function(type, result) {
+    var self              = this;
     var results           = result[type];
     var searchResultsId   = type + '-search-results';
     var $oldSearchResults = document.getElementById(searchResultsId);
@@ -355,21 +356,21 @@
     this.createSearchResultElements(type, results, function(elements) {
       if (elements.length) {
         elements.map(function(el, index) {
-          if (index < this.numberOfSearchResults) {
+          if (index < self.numberOfSearchResults) {
             el.style.display = 'block';
           }
           $newSearchResults.appendChild(el);
         });
 
-        if (elements.length >= this.numberOfSearchResults) {
-          $newSearchResults.appendChild(this.createShowMoreElement(searchResultsId));
+        if (elements.length >= self.numberOfSearchResults) {
+          $newSearchResults.appendChild(self.createShowMoreElement(searchResultsId));
         }
       } else {
-        $newSearchResults.appendChild(this.createNoSearchResultElement());
+        $newSearchResults.appendChild(self.createNoSearchResultElement());
       }
 
       $oldSearchResults.parentNode.replaceChild($newSearchResults, $oldSearchResults);
-    }.bind(this));
+    });
   };
 
   SpotifyRemoteClient.prototype.displaySearchError = function(type, errorMsg) {
