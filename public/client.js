@@ -88,6 +88,387 @@
       self.emit('jumpTo', event.target.value);
       self._positionRangeBlocked = false;
     });
+
+    this.$('new-search').addEventListener(
+      'submit',
+      function(event) {
+        event.preventDefault();
+        var $searchInput = this.$('search-term');
+        var searchTerm   = $searchInput.value;
+
+        $searchInput.blur();
+
+        if (searchTerm === '') return;
+
+        this.getAndDisplaySearchResults('tracks', searchTerm);
+        this.getAndDisplaySearchResults('albums', searchTerm);
+        this.getAndDisplaySearchResults('artists', searchTerm);
+      }.bind(this)
+    );
+
+    document.addEventListener(
+      'click',
+      function(event) {
+        var handler = {
+          'tracks': this.handleTracksResultClick,
+          'albums': this.handleAlbumsResultClick,
+          'artists': this.handleArtistsResultClick
+        }[event.target.dataset.resulttype];
+
+        if (!handler) return;
+
+        event.preventDefault();
+        handler.call(this, event.target);
+      }.bind(this)
+    );
+
+    document.addEventListener(
+      this._canTouchThis ? 'touchstart' : 'click',
+      function(event) {
+        var showPage = {
+          'search': this.showSearchPage,
+          'remote': this.showRemotePage,
+          'artist-detail': this.showArtistDetailPage
+        }[event.target.dataset.showPage];
+
+        if (!showPage) return;
+
+        event.preventDefault();
+
+        if (event.target.dataset.deleteLastVisited === '') delete this.lastVisitedPage;
+        showPage.call(this);
+      }.bind(this)
+    );
+
+    document.addEventListener(
+      'click',
+      function(event) {
+        if (event.target.className != 'show-more') return;
+        event.preventDefault();
+
+        this.showMoreResults(event.target.rel);
+      }.bind(this)
+    );
+  };
+
+  SpotifyRemoteClient.prototype.showMoreResults = function(resultsId) {
+    var $results        = document.getElementById(resultsId);
+    var $showMoreButton = $results.querySelectorAll('.show-more')[0];
+    var visibleResults  = 0;
+
+    Array.prototype.forEach.call($results.children, function($result, index) {
+      if ($result.className.match(/-search-result/)) {
+        if ($result.style.display === 'block') {
+          visibleResults++;
+        } else if (index <= (visibleResults + 3)) {
+          $result.style.display = 'block';
+        }
+
+        if ($results.children.length === visibleResults + 3) $showMoreButton.style.display = 'none';
+      }
+    });
+  };
+
+  SpotifyRemoteClient.prototype.showSearchPage = function() {
+    if (this.lastVisitedPage) {
+      var pageId = this.lastVisitedPage;
+    } else {
+      var pageId = 'search';
+    }
+
+    this.showPage(pageId, {savePage: true});
+  };
+
+  SpotifyRemoteClient.prototype.showRemotePage = function() {
+    this.showPage('remote', {savePage: false});
+  };
+
+  SpotifyRemoteClient.prototype.showArtistDetailPage = function() {
+    this.showPage('artist-detail', {savePage: true});
+  };
+
+  SpotifyRemoteClient.prototype.showPage = function(pageId, options) {
+    var pages = document.getElementsByClassName('page');
+
+    if (options && options.savePage) this.lastVisitedPage = pageId;
+
+    Array.prototype.forEach.call(pages, function(page) {
+      page.style.display = page.id === pageId ? 'block' : 'none';
+    }.bind(this));
+  };
+
+  SpotifyRemoteClient.prototype.handleTracksResultClick = function(target) {
+    this.socket.emit('playTrack', target.dataset.spotifyurl);
+    this.showRemotePage();
+  };
+
+  SpotifyRemoteClient.prototype.handleAlbumsResultClick = function(target) {
+    var spotifyUrl = target.dataset.spotifyurl;
+    var lookupUrl  = 'http://ws.spotify.com/lookup/1/.json?uri=' + spotifyUrl + '&extras=track';
+    var xhr        = new XMLHttpRequest();
+
+    xhr.open('GET', lookupUrl, true)
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          try {
+            var parsedResponse = JSON.parse(xhr.responseText);
+          } catch(e) {
+            this.displayAlbumDetailError('Woah, something went wrong!');
+            return;
+          }
+          this.displayAlbumDetails(parsedResponse);
+        } else {
+          this.displayAlbumDetailError('Woah, something went wrong!');
+        }
+      }
+    }.bind(this);
+
+    xhr.send()
+  };
+
+  SpotifyRemoteClient.prototype.handleArtistsResultClick = function(target) {
+    var spotifyUrl = target.dataset.spotifyurl;
+    var lookupUrl  = 'http://ws.spotify.com/lookup/1/.json?uri=' + spotifyUrl + '&extras=album';
+    var xhr        = new XMLHttpRequest();
+
+    xhr.open('GET', lookupUrl, true)
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          try {
+            var parsedResponse = JSON.parse(xhr.responseText);
+          } catch(e) {
+            this.displayArtistDetailError('Woah, something went wrong!');
+            return;
+          }
+          this.displayArtistDetails(parsedResponse);
+        } else {
+          this.displayArtistDetailError('Woah, something went wrong!');
+        }
+      }
+    }.bind(this);
+
+    xhr.send()
+  };
+
+  SpotifyRemoteClient.prototype.getAndDisplaySearchResults = function(type, term) {
+    var xhr = new XMLHttpRequest();
+    var searchUrl = {
+      albums: 'http://ws.spotify.com/search/1/album.json?q=' + term,
+      artists: 'http://ws.spotify.com/search/1/artist.json?q=' + term,
+      tracks: 'http://ws.spotify.com/search/1/track.json?q=' + term
+    }[type];
+
+    xhr.open('GET', searchUrl, true);
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          try {
+            var parsedResponse = JSON.parse(xhr.responseText);
+          } catch(e) {
+            this.displaySearchError(type, 'Woah, something went wrong!');
+            return;
+          }
+          this.displaySearchResults(type, parsedResponse);
+        } else {
+          this.displaySearchError(type, 'Woah, something went wrong!');
+        }
+      }
+    }.bind(this);
+
+    xhr.send()
+  };
+
+  SpotifyRemoteClient.prototype.displayAlbumDetails = function(albumDetails) {
+    var albumDetailName    = albumDetails.album.artist + ' - ' + albumDetails.album.name;
+    var $albumDetailParent = document.getElementById('album-detail');
+    var $oldTracks         = document.getElementById('album-detail-tracks');
+    var $newTracks         = document.createElement('div');
+    $newTracks.id          = 'album-detail-tracks';
+    var $albumDetail       = document.getElementById('album-detail-album');
+
+    this.createTrackSearchResultElements(albumDetails.album.tracks, function(elements) {
+      elements.map(function(el) {
+        el.style.display = 'block';
+        $newTracks.appendChild(el);
+      });
+
+      $oldTracks.parentNode.replaceChild($newTracks, $oldTracks);
+      $albumDetail.textContent = albumDetailName;
+
+      if (this.lastVisitedPage === 'artist-detail') {
+        var $backButton = $albumDetailParent.querySelectorAll('.go-back')[0];
+
+        $backButton.textContent = 'Back';
+        $backButton.dataset.showPage = 'artist-detail';
+        $backButton.dataset.deleteLastVisited = undefined;
+      }
+
+      this.showPage('album-detail', {savePage: true});
+    }.bind(this));
+  };
+
+  SpotifyRemoteClient.prototype.displayAlbumDetailError = function(error) {
+    var $albumDetail         = document.getElementById('album-detail-album');
+    $albumDetail.textContent = error;
+
+    var $albumTracks         = document.getElementById('album-detail-tracks');
+    $albumTracks.textContent = '';
+
+    this.showPage('album-detail', {savePage: true});
+  };
+
+  SpotifyRemoteClient.prototype.displayArtistDetails = function(artistDetails) {
+    var $artistDetail = document.getElementById('artist-detail-artist');
+    var $oldAlbums    = document.getElementById('artist-detail-albums');
+    var $newAlbums    = document.createElement('div');
+    $newAlbums.id     = 'artist-detail-albums';
+
+    this.createArtistDetailAlbumResults(artistDetails.artist.albums, function(elements) {
+      elements.map(function(el) {
+        el.style.display = 'block';
+        $newAlbums.appendChild(el);
+      });
+
+      $oldAlbums.parentNode.replaceChild($newAlbums, $oldAlbums);
+      $artistDetail.textContent = artistDetails.artist.name;
+
+      this.showPage('artist-detail', {savePage: true});
+    }.bind(this));
+  };
+
+  SpotifyRemoteClient.prototype.displayArtistDetailError = function(error) {
+    var $artistAlbums         = document.getElementById('artist-detail-albums');
+    $artistAlbums.textContent = error;
+    this.showPage('artist-detail', {savePage: true});
+  };
+
+  SpotifyRemoteClient.prototype.displaySearchResults = function(type, result) {
+    var results           = result[type];
+    var searchResultsId   = type + '-search-results';
+    var $oldSearchResults = document.getElementById(searchResultsId);
+    var $newSearchResults = document.createElement('div');
+    $newSearchResults.id  = searchResultsId;
+
+    var createSearchResultElementsMethod = {
+      'tracks': this.createTrackSearchResultElements,
+      'albums': this.createAlbumSearchResultElements,
+      'artists': this.createArtistSearchResultElements
+    }[type];
+
+    createSearchResultElementsMethod(results, function(elements) {
+      if (elements.length) {
+        elements.map(function(el, index) {
+          if (index <= 2) el.style.display = 'block';
+          $newSearchResults.appendChild(el);
+        });
+
+        if (elements.length >= 3) {
+          var $showMore         = document.createElement('a');
+          $showMore.className   = 'show-more';
+          $showMore.href        = '#';
+          $showMore.textContent = 'Show more';
+          $showMore.rel         = searchResultsId;
+          $newSearchResults.appendChild($showMore);
+        }
+      } else {
+        $newSearchResults.appendChild(this.createNoSearchResultElement());
+      }
+
+      $oldSearchResults.parentNode.replaceChild($newSearchResults, $oldSearchResults);
+    }.bind(this));
+  };
+
+  SpotifyRemoteClient.prototype.displaySearchError = function(type, errorMsg) {
+    var $searchResults         = document.getElementById(type + '-search-results');
+    $searchResults.textContent = errorMsg;
+  };
+
+  SpotifyRemoteClient.prototype.createNoSearchResultElement = function() {
+    var el       = document.createElement('div');
+    el.className = 'no-search-result';
+    el.innerHTML = 'Woah! No search results!';
+    return el;
+  };
+
+  SpotifyRemoteClient.prototype.createAlbumSearchResultElements = function(results, cb) {
+    var elements = [];
+
+    if (results.length === 0) return cb(elements);
+
+    results.forEach(function(result) {
+      var el                = document.createElement('a');
+      el.href               = '#';
+      el.className          = 'albums-search-result';
+      el.style.display      = 'none';
+      el.innerHTML          = result.artists[0].name + ' - ' + result.name;
+      el.dataset.spotifyurl = result.href;
+      el.dataset.resulttype = 'albums';
+
+      elements.push(el);
+
+      if (elements.length === results.length) return cb(elements);
+    });
+  };
+
+  SpotifyRemoteClient.prototype.createArtistDetailAlbumResults = function(results, cb) {
+    var elements = [];
+
+    if (results.length === 0) return cb(elements);
+
+    results.forEach(function(result) {
+      var el                = document.createElement('a');
+      el.href               = '#';
+      el.className          = 'albums-search-result';
+      el.innerHTML          = result.album.artist + ' - ' + result.album.name;
+      el.dataset.spotifyurl = result.album.href;
+      el.dataset.resulttype = 'albums';
+
+      elements.push(el);
+
+      if (elements.length === results.length) return cb(elements);
+    });
+  };
+
+  SpotifyRemoteClient.prototype.createTrackSearchResultElements = function(results, cb) {
+    var elements = [];
+
+    if (results.length === 0) return cb(elements);
+
+    results.forEach(function(result) {
+      var el                = document.createElement('a');
+      el.href               = '#';
+      el.className          = 'tracks-search-result';
+      el.innerHTML          = result.artists[0].name + ' - ' + result.name;
+      el.style.display      = 'none';
+      el.dataset.spotifyurl = result.href;
+      el.dataset.resulttype = 'tracks';
+
+      elements.push(el);
+
+      if (elements.length === results.length) return cb(elements);
+    });
+  };
+
+  SpotifyRemoteClient.prototype.createArtistSearchResultElements = function(results, cb) {
+    var elements = [];
+
+    if (results.length === 0) return cb(elements);
+
+    results.forEach(function(result) {
+      var el                = document.createElement('a');
+      el.href               = '#';
+      el.className          = 'artists-search-result';
+      el.innerHTML          = result.name;
+      el.style.display      = 'none';
+      el.dataset.spotifyurl = result.href;
+      el.dataset.resulttype = 'artists';
+
+      elements.push(el);
+
+      if (elements.length === results.length) return cb(elements);
+    });
   };
 
   SpotifyRemoteClient.prototype.bindVisibilityEvents = function() {
