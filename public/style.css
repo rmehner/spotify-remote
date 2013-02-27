@@ -310,7 +310,7 @@ input[type="range"]::slider-thumb {
 }
 
 .no-search-result {
-  color: #333333;
+  color: #808080;
   text-align: center;
 }
 
