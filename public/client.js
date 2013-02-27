@@ -132,7 +132,7 @@
     });
 
     document.addEventListener('click', function(event) {
-      if (event.target.className != 'show-more') return;
+      if (event.target.className !== 'show-more') return;
       event.preventDefault();
 
       self.showMoreResults(event.target.rel);
