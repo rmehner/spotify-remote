@@ -161,7 +161,7 @@
     var $showMoreButton = $results.querySelectorAll('.show-more')[0];
     var visibleResults  = 0;
 
-    Array.prototype.forEach.call($results.children, function($result, index) {
+    this.forEach($results.children, function($result, index) {
       if ($result.className.match(/-search-result/)) {
         if ($result.style.display === 'block') {
           visibleResults++;
@@ -193,9 +193,9 @@
 
     if (options && options.savePage) this.lastVisitedPage = pageId;
 
-    Array.prototype.forEach.call(pages, function(page) {
+    this.forEach(pages, function(page) {
       page.style.display = page.id === pageId ? 'block' : 'none';
-    }.bind(this));
+    });
   };
 
   SpotifyRemoteClient.prototype.handleTracksResultClick = function(target) {
@@ -520,6 +520,10 @@
     this.elements[id] = this.elements[id] || document.getElementById(id);
 
     return this.elements[id];
+  };
+
+  SpotifyRemoteClient.prototype.forEach = function(obj, iterator, context) {
+    Array.prototype.forEach.call(obj, iterator, context);
   };
 
   SpotifyRemoteClient.prototype.formatTime = function(totalSeconds) {
