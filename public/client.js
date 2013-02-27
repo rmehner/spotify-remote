@@ -89,66 +89,54 @@
       self._positionRangeBlocked = false;
     });
 
-    this.$('new-search').addEventListener(
-      'submit',
-      function(event) {
-        event.preventDefault();
-        var $searchInput = this.$('search-term');
-        var searchTerm   = $searchInput.value;
+    this.$('new-search').addEventListener('submit', function(event) {
+      event.preventDefault();
+      var $searchInput = self.$('search-term');
+      var searchTerm   = $searchInput.value;
 
-        $searchInput.blur();
+      $searchInput.blur();
 
-        if (searchTerm === '') return;
+      if (searchTerm === '') return;
 
-        this.getAndDisplaySearchResults('tracks', searchTerm);
-        this.getAndDisplaySearchResults('albums', searchTerm);
-        this.getAndDisplaySearchResults('artists', searchTerm);
-      }.bind(this)
-    );
+      self.getAndDisplaySearchResults('tracks', searchTerm);
+      self.getAndDisplaySearchResults('albums', searchTerm);
+      self.getAndDisplaySearchResults('artists', searchTerm);
+    });
 
-    document.addEventListener(
-      'click',
-      function(event) {
-        var handler = {
-          'tracks': this.handleTracksResultClick,
-          'albums': this.handleAlbumsResultClick,
-          'artists': this.handleArtistsResultClick
-        }[event.target.dataset.resulttype];
+    document.addEventListener('click', function(event) {
+      var handler = {
+        'tracks': self.handleTracksResultClick,
+        'albums': self.handleAlbumsResultClick,
+        'artists': self.handleArtistsResultClick
+      }[event.target.dataset.resulttype];
 
-        if (!handler) return;
+      if (!handler) return;
 
-        event.preventDefault();
-        handler.call(this, event.target);
-      }.bind(this)
-    );
+      event.preventDefault();
+      handler.call(self, event.target);
+    });
 
-    document.addEventListener(
-      this._canTouchThis ? 'touchstart' : 'click',
-      function(event) {
-        var showPage = {
-          'search': this.showSearchPage,
-          'remote': this.showRemotePage,
-          'artist-detail': this.showArtistDetailPage
-        }[event.target.dataset.showPage];
+    document.addEventListener(this._canTouchThis ? 'touchstart' : 'click', function(event) {
+      var showPage = {
+        'search': self.showSearchPage,
+        'remote': self.showRemotePage,
+        'artist-detail': self.showArtistDetailPage
+      }[event.target.dataset.showPage];
 
-        if (!showPage) return;
+      if (!showPage) return;
 
-        event.preventDefault();
+      event.preventDefault();
 
-        if (event.target.dataset.deleteLastVisited === '') delete this.lastVisitedPage;
-        showPage.call(this);
-      }.bind(this)
-    );
+      if (event.target.dataset.deleteLastVisited === '') delete self.lastVisitedPage;
+      showPage.call(self);
+    });
 
-    document.addEventListener(
-      'click',
-      function(event) {
-        if (event.target.className != 'show-more') return;
-        event.preventDefault();
+    document.addEventListener('click', function(event) {
+      if (event.target.className != 'show-more') return;
+      event.preventDefault();
 
-        this.showMoreResults(event.target.rel);
-      }.bind(this)
-    );
+      self.showMoreResults(event.target.rel);
+    });
   };
 
   SpotifyRemoteClient.prototype.showMoreResults = function(resultsId) {
