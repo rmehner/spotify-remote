@@ -4,6 +4,7 @@
   var SpotifyRemoteClient = function(host) {
     this.host                  = host || window.location.hostname;
     this.elements              = [];
+    this.numberOfSearchResults = 3;
     this._canTouchThis         = 'ontouchstart' in window || 'createTouch' in document;
     this._volumeRangeBlocked   = false;
     this._positionRangeBlocked = false;
@@ -148,13 +149,15 @@
       if ($result.className.match(/-search-result/)) {
         if ($result.style.display === 'block') {
           visibleResults++;
-        } else if (index <= (visibleResults + 3)) {
+        } else if (index <= (visibleResults + this.numberOfSearchResults)) {
           $result.style.display = 'block';
         }
 
-        if ($results.children.length === visibleResults + 3) $showMoreButton.style.display = 'none';
+        if ($results.children.length === visibleResults + this.numberOfSearchResults) {
+          $showMoreButton.style.display = 'none';
+        }
       }
-    });
+    }, this);
   };
 
   SpotifyRemoteClient.prototype.showSearchPage = function() {
@@ -336,17 +339,14 @@
     this.createSearchResultElements(type, results, function(elements) {
       if (elements.length) {
         elements.map(function(el, index) {
-          if (index <= 2) el.style.display = 'block';
+          if (index < this.numberOfSearchResults) {
+            el.style.display = 'block';
+          }
           $newSearchResults.appendChild(el);
         });
 
-        if (elements.length >= 3) {
-          var $showMore         = document.createElement('a');
-          $showMore.className   = 'show-more';
-          $showMore.href        = '#';
-          $showMore.textContent = 'Show more';
-          $showMore.rel         = searchResultsId;
-          $newSearchResults.appendChild($showMore);
+        if (elements.length >= this.numberOfSearchResults) {
+          $newSearchResults.appendChild(this.createShowMoreElement(searchResultsId));
         }
       } else {
         $newSearchResults.appendChild(this.createNoSearchResultElement());
@@ -365,6 +365,15 @@
     var el       = document.createElement('div');
     el.className = 'no-search-result';
     el.innerHTML = 'Woah! No search results!';
+    return el;
+  };
+
+  SpotifyRemoteClient.prototype.createShowMoreElement = function(searchResultsId) {
+    var el         = document.createElement('a');
+    el.className   = 'show-more';
+    el.href        = '#';
+    el.textContent = 'Show more';
+    el.rel         = searchResultsId;
     return el;
   };
 
