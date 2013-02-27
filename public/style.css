@@ -201,8 +201,8 @@ input[type="range"]::-ms-track {
 }
 
 .nav-button {
-  background-image:  -webkit-linear-gradient(90deg, hsla(0.0, 0.0%, 20.0%, 1) 0.0%, hsla(0.0, 0.0%, 10.0%, 1) 50.5%, hsla(0.0, 0.0%, 20.0%, 1) 50.7%, hsla(0.0, 0.0%, 30.0%, 1) 100.0% );
-  background-image:          linear-gradient(90deg, hsla(0.0, 0.0%, 20.0%, 1) 0.0%, hsla(0.0, 0.0%, 10.0%, 1) 50.5%, hsla(0.0, 0.0%, 20.0%, 1) 50.7%, hsla(0.0, 0.0%, 30.0%, 1) 100.0% );
+  background-image:  -webkit-linear-gradient(bottom, hsla(0.0, 0.0%, 20.0%, 1) 0.0%, hsla(0.0, 0.0%, 10.0%, 1) 50.5%, hsla(0.0, 0.0%, 20.0%, 1) 50.7%, hsla(0.0, 0.0%, 30.0%, 1) 100.0% );
+  background-image:          linear-gradient(to top, hsla(0.0, 0.0%, 20.0%, 1) 0.0%, hsla(0.0, 0.0%, 10.0%, 1) 50.5%, hsla(0.0, 0.0%, 20.0%, 1) 50.7%, hsla(0.0, 0.0%, 30.0%, 1) 100.0% );
 
   border: 1px solid hsla(0.0, 0.0%, 0.0%, 1);
   border-radius: 5px 5px 5px 5px;
@@ -216,8 +216,8 @@ input[type="range"]::-ms-track {
 }
 
 .nav-button:hover {
-  background-image:  -webkit-linear-gradient(90deg, hsla(0.0, 0.0%, 25.0%, 1) 0.0%, hsla(0.0, 0.0%, 15.0%, 1) 50.5%, hsla(0.0, 0.0%, 25.0%, 1) 50.7%, hsla(0.0, 0.0%, 35.0%, 1) 100.0% );
-  background-image:          linear-gradient(90deg, hsla(0.0, 0.0%, 25.0%, 1) 0.0%, hsla(0.0, 0.0%, 15.0%, 1) 50.5%, hsla(0.0, 0.0%, 25.0%, 1) 50.7%, hsla(0.0, 0.0%, 35.0%, 1) 100.0% );
+  background-image:  -webkit-linear-gradient(bottom, hsla(0.0, 0.0%, 25.0%, 1) 0.0%, hsla(0.0, 0.0%, 15.0%, 1) 50.5%, hsla(0.0, 0.0%, 25.0%, 1) 50.7%, hsla(0.0, 0.0%, 35.0%, 1) 100.0% );
+  background-image:          linear-gradient(to top, hsla(0.0, 0.0%, 25.0%, 1) 0.0%, hsla(0.0, 0.0%, 15.0%, 1) 50.5%, hsla(0.0, 0.0%, 25.0%, 1) 50.7%, hsla(0.0, 0.0%, 35.0%, 1) 100.0% );
 }
 
 /* --- remote appearance --- */
