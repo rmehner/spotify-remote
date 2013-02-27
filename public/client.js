@@ -468,7 +468,6 @@
       elements.push(el);
 
       if (elements.length === results.length) return cb(elements);
->>>>>>> Add basic search functionality (artist/track/album), without real UI
     });
   };
 
