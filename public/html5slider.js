@@ -245,7 +245,7 @@ function transform(slider) {
     if (!isValueSet && !areAttrsSet)
       value = slider.getAttribute('value');
     if (!isAttrNum(value))
-      value = (min + max) / 2;;
+      value = (min + max) / 2;
     // snap to step intervals (WebKit sometimes does not - bug?)
     value = Math.round((value - min) / step) * step + min;
     if (value < min)

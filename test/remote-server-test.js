@@ -1,3 +1,5 @@
+"use strict";
+
 var assert               = require('assert');
 var sinon                = require('sinon');
 var fs                   = require('fs');
@@ -102,7 +104,7 @@ describe('SpotifyRemoteServer', function() {
       server.handleConnection(socket);
 
       var originalVolumeUp = spotify.volumeUp;
-      spotify.volumeUp = function(cb) { cb.call(server); }
+      spotify.volumeUp = function(cb) { cb.call(server); };
 
       socket.trigger('volumeUp');
 
@@ -122,7 +124,7 @@ describe('SpotifyRemoteServer', function() {
       server.handleConnection(socket);
 
       var originalVolumeDown = spotify.volumeDown;
-      spotify.volumeDown = function(cb) { cb.call(server); }
+      spotify.volumeDown = function(cb) { cb.call(server); };
 
       socket.trigger('volumeDown');
 
@@ -145,7 +147,7 @@ describe('SpotifyRemoteServer', function() {
       server.handleConnection(socket);
 
       var originalNext = spotify.next;
-      spotify.next = function(cb) { cb.call(server); }
+      spotify.next = function(cb) { cb.call(server); };
 
       socket.trigger('next');
 
@@ -169,7 +171,7 @@ describe('SpotifyRemoteServer', function() {
       server.handleConnection(socket);
 
       var originalPrevious = spotify.previous;
-      spotify.previous = function(cb) { cb.call(server); }
+      spotify.previous = function(cb) { cb.call(server); };
 
       socket.trigger('previous');
 
@@ -178,7 +180,7 @@ describe('SpotifyRemoteServer', function() {
         assert.equal(emitSpy.withArgs('currentTrack').callCount, 2);
 
         spotify.previous = originalPrevious;
-        done()
+        done();
       });
     });
 
@@ -193,7 +195,7 @@ describe('SpotifyRemoteServer', function() {
       server.handleConnection(socket);
 
       var originalPlayPause = spotify.playPause;
-      spotify.playPause = function(cb) { cb.call(server); }
+      spotify.playPause = function(cb) { cb.call(server); };
 
       socket.trigger('playPause');
 

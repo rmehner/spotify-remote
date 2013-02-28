@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+'use strict';
+
 var app                 = require('http').createServer(handleRequest);
 var io                  = require('socket.io').listen(app);
 var fs                  = require('fs');
