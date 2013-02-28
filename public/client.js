@@ -56,6 +56,8 @@
     });
 
     document.addEventListener('keyup', function(event) {
+      if (event.target.tagName === 'INPUT') return;
+
       var command = {
         32: 'playPause',   // space
         78: 'next',        // n
