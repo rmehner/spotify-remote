@@ -370,7 +370,6 @@
   SpotifyRemoteClient.prototype.createShowMoreElement = function(searchResultsId) {
     var el         = document.createElement('a');
     el.className   = 'show-more';
-    el.href        = '#';
     el.textContent = 'Show more';
     el.rel         = searchResultsId;
     return el;
@@ -388,7 +387,6 @@
 
   SpotifyRemoteClient.prototype.createAlbumSearchResultElement = function(result) {
     var el                = document.createElement('a');
-    el.href               = '#';
     el.innerHTML          = result.artists[0].name + ' - ' + result.name;
     el.dataset.spotifyurl = result.href;
     el.dataset.resulttype = 'albums';
@@ -399,7 +397,6 @@
   SpotifyRemoteClient.prototype.createArtistDetailAlbumResults = function(results, cb) {
     var elements = results.map(function(result) {
       var el                = document.createElement('a');
-      el.href               = '#';
       el.innerHTML          = result.album.artist + ' - ' + result.album.name;
       el.dataset.spotifyurl = result.album.href;
       el.dataset.resulttype = 'albums';
@@ -412,7 +409,6 @@
 
   SpotifyRemoteClient.prototype.createTrackSearchResultElement = function(result) {
     var el                = document.createElement('a');
-    el.href               = '#';
     el.innerHTML          = result.artists[0].name + ' - ' + result.name;
     el.dataset.spotifyurl = result.href;
     el.dataset.resulttype = 'tracks';
@@ -422,7 +418,6 @@
 
   SpotifyRemoteClient.prototype.createArtistSearchResultElement = function(result) {
     var el                = document.createElement('a');
-    el.href               = '#';
     el.innerHTML          = result.name;
     el.dataset.spotifyurl = result.href;
     el.dataset.resulttype = 'artists';
