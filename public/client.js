@@ -170,12 +170,12 @@
         } else if (index <= (visibleResults + this.numberOfSearchResults)) {
           $result.style.display = 'block';
         }
-
-        if ($results.children.length === visibleResults + this.numberOfSearchResults) {
-          $showMoreButton.style.display = 'none';
-        }
       }
     }, this);
+
+    if ($results.children.length === visibleResults + this.numberOfSearchResults) {
+      $showMoreButton.style.display = 'none';
+    }
   };
 
   SpotifyRemoteClient.prototype.showSearchPage = function() {
