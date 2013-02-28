@@ -280,11 +280,23 @@ input[type="range"]::slider-thumb {
   padding: 0.5em;
 }
 
-.tracks-search-result, .albums-search-result, .artists-search-result {
+#tracks-search-results a,
+#albums-search-results a,
+#artists-search-results a,
+#artist-detail-albums a,
+#album-detail-tracks a {
   display: block;
   color: #bada55;
   background: -webkit-linear-gradient(#555, #333);
   padding: 5px;
+}
+
+#tracks-search-results a:hover,
+#albums-search-results a:hover,
+#artists-search-results a:hover,
+#artist-detail-albums a:hover,
+#album-detail-tracks a:hover {
+  color: #CEE486;
 }
 
 #artist-detail-artist, #album-detail-album {
@@ -293,13 +305,10 @@ input[type="range"]::slider-thumb {
   font-size: 1.5em;
 }
 
-.tracks-search-result:hover, .album-search-result:hover {
-  color: #CEE486;
-}
-
 .show-more {
   margin: 0.5em 0em 1em 0em;
   color: #90B027;
+  background: none !important;
   display: inline-block;
   width: 100%;
   text-align: center;
