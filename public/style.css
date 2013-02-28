@@ -101,18 +101,22 @@ input[type="range"]::-ms-track {
 // Search is initially hidden
 #search {
   display: none;
+  overflow: auto;
 }
 
 #artist-detail {
   display: none;
+  overflow: auto;
 }
 
 #album-detail {
   display: none;
+  overflow: auto;
 }
 
 #search {
   display: none;
+  overflow: auto;
 }
 
 
@@ -346,6 +350,6 @@ input[type="range"]::slider-thumb {
     border: .5em solid rgba(0,0,0,.2);
     border-radius: 1em;
     box-shadow: 0 0 10px #666;
-    overflow: scroll;
+    overflow: hidden;
   }
 }
