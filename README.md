@@ -65,7 +65,6 @@ This thing is work in progress and the result of a hack day. It's working relati
 well, but of course there's a lot to do. Things that come to mind are:
 
 * Linux support (Spotify is supposed to have a DBUS-Interface)
-* Search for tracks, albums and artist (WIP in [search_function branch](https://github.com/rmehner/spotify-remote/tree/add_search_function))
 * Windows support (if anyone is up to it)
 * Make it even more battery friendly
 * Test & fix on Android devices
@@ -79,12 +78,13 @@ To get started with spotify-remote development, install it locally:
 ```
 $ git clone https://github.com/rmehner/spotify-remote.git
 $ cd spotify-remote
+$ npm install -g grunt-cli
 $ npm install
 $ npm start
 $ open http://localhost:3333
 ```
 
-To run the test suite, do the following:
+To run jshint and the test suite, do the following:
 
 ```
 $ npm test
