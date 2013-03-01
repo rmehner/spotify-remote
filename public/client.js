@@ -361,7 +361,6 @@
 
       if (this.lastVisitedPage === 'artist-detail') {
         var $backButton                       = document.querySelector('#album-detail .go-back');
-        $backButton.textContent               = 'Back';
         $backButton.dataset.showPage          = 'artist-detail';
         $backButton.dataset.deleteLastVisited = undefined;
       }
