@@ -403,13 +403,12 @@
 
   SpotifyRemoteClient.prototype.displaySearchResults = function(type, result) {
     var self              = this;
-    var results           = result[type];
     var searchResultsId   = type + '-search-results';
     var $oldSearchResults = document.getElementById(searchResultsId);
     var $newSearchResults = document.createElement('div');
     $newSearchResults.id  = searchResultsId;
 
-    this.createSearchResultElements(type, results, function(elements) {
+    this.createSearchResultElements(type, result[type], function(elements) {
       if (elements.length) {
         elements.map(function(el, index) {
           el.style.display = index < self.numberOfSearchResults ? 'block' : 'none';
