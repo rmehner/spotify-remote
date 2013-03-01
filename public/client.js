@@ -299,6 +299,7 @@
             parsedResponse = JSON.parse(xhr.responseText);
           } catch(e) {
             errorHandler('Woah! Something went wrong!');
+            if (typeof console === 'object') console.error(e);
             return;
           }
           successHandler(parsedResponse);
