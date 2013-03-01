@@ -241,7 +241,7 @@
 
   SpotifyRemoteClient.prototype.showMoreResults = function(resultsId) {
     var $results        = document.getElementById(resultsId);
-    var $showMoreButton = $results.querySelectorAll('.show-more')[0];
+    var $showMoreButton = $results.querySelector('.show-more');
     var visibleResults  = 0;
 
     this.forEach($results.children, function($result, index) {
@@ -342,12 +342,10 @@
   };
 
   SpotifyRemoteClient.prototype.displayAlbumDetails = function(albumDetails) {
-    var albumDetailName    = albumDetails.album.artist + ' - ' + albumDetails.album.name;
-    var $albumDetailParent = document.getElementById('album-detail');
-    var $oldTracks         = document.getElementById('album-detail-tracks');
-    var $newTracks         = document.createElement('div');
-    $newTracks.id          = 'album-detail-tracks';
-    var $albumDetail       = document.getElementById('album-detail-album');
+    var $oldTracks      = document.getElementById('album-detail-tracks');
+    var $newTracks      = document.createElement('div');
+    $newTracks.id       = 'album-detail-tracks';
+    var $albumDetail    = document.getElementById('album-detail-album');
 
     this.createSearchResultElements('tracks', albumDetails.album.tracks, function(elements) {
       elements.map(function(el) {
@@ -356,13 +354,12 @@
       });
 
       $oldTracks.parentNode.replaceChild($newTracks, $oldTracks);
-      $albumDetail.textContent = albumDetailName;
+      $albumDetail.textContent = albumDetails.album.artist + ' - ' + albumDetails.album.name;
 
       if (this.lastVisitedPage === 'artist-detail') {
-        var $backButton = $albumDetailParent.querySelectorAll('.go-back')[0];
-
-        $backButton.textContent = 'Back';
-        $backButton.dataset.showPage = 'artist-detail';
+        var $backButton                       = document.querySelector('#album-detail .go-back');
+        $backButton.textContent               = 'Back';
+        $backButton.dataset.showPage          = 'artist-detail';
         $backButton.dataset.deleteLastVisited = undefined;
       }
 
