@@ -248,7 +248,7 @@
       if ($result.dataset.resulttype) {
         if ($result.style.display === 'block') {
           visibleResults++;
-        } else if (index <= (visibleResults + this.numberOfSearchResults)) {
+        } else if (index < (visibleResults + this.numberOfSearchResults)) {
           $result.style.display = 'block';
         }
       }
