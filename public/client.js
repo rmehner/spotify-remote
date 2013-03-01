@@ -297,12 +297,11 @@
         if (xhr.status === 200) {
           try {
             parsedResponse = JSON.parse(xhr.responseText);
+            successHandler(parsedResponse);
           } catch(e) {
             errorHandler('Woah! Something went wrong!');
             if (typeof console === 'object') console.error(e);
-            return;
           }
-          successHandler(parsedResponse);
         } else {
           errorHandler('Woah! Something went wrong!');
         }
