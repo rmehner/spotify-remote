@@ -378,10 +378,9 @@
   };
 
   SpotifyRemoteClient.prototype.displayArtistDetails = function(artistDetails) {
-    var $artistDetail = document.getElementById('artist-detail-artist');
-    var $oldAlbums    = document.getElementById('artist-detail-albums');
-    var $newAlbums    = document.createElement('div');
-    $newAlbums.id     = 'artist-detail-albums';
+    var $oldAlbums = document.getElementById('artist-detail-albums');
+    var $newAlbums = document.createElement('div');
+    $newAlbums.id  = 'artist-detail-albums';
 
     this.createArtistDetailAlbumResults(artistDetails.artist.albums, function(elements) {
       elements.map(function(el) {
@@ -390,15 +389,14 @@
       });
 
       $oldAlbums.parentNode.replaceChild($newAlbums, $oldAlbums);
-      $artistDetail.textContent = artistDetails.artist.name;
+      document.getElementById('artist-detail-artist').textContent = artistDetails.artist.name;
 
       this.showPage('artist-detail', {savePage: true});
     }.bind(this));
   };
 
   SpotifyRemoteClient.prototype.displayArtistDetailError = function(error) {
-    var $artistAlbums         = document.getElementById('artist-detail-albums');
-    $artistAlbums.textContent = error;
+    document.getElementById('artist-detail-albums').textContent = error;
     this.showPage('artist-detail', {savePage: true});
   };
 
@@ -429,8 +427,7 @@
   };
 
   SpotifyRemoteClient.prototype.displaySearchError = function(type, errorMsg) {
-    var $searchResults         = document.getElementById(type + '-search-results');
-    $searchResults.textContent = errorMsg;
+    document.getElementById(type + '-search-results').textContent = errorMsg;
   };
 
   SpotifyRemoteClient.prototype.createNoSearchResultElement = function() {
