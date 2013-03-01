@@ -96,11 +96,11 @@
 
     this.$('position').addEventListener('change', function(event) {
       clearInterval(self._positionInterval);
-      self.rememberedPosition = event.target.value;
+      self._rememberedPosition = event.target.value;
 
       self._positionInterval = setInterval(function() {
         if (self._sendPosition) {
-          self.emit('jumpTo', self.rememberedPosition);
+          self.emit('jumpTo', self._rememberedPosition);
           self._positionRangeBlocked = false;
           self._sendPosition         = false;
           clearInterval(self._positionInterval);
