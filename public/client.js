@@ -415,7 +415,7 @@
           $newSearchResults.appendChild(el);
         });
 
-        if (elements.length >= self.numberOfSearchResults) {
+        if (elements.length > self.numberOfSearchResults) {
           $newSearchResults.appendChild(self.createShowMoreElement(searchResultsId));
         }
       } else {
