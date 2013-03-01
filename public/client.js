@@ -245,12 +245,13 @@
     var visibleResults  = 0;
 
     this.forEach($results.children, function($result, index) {
-      if ($result.dataset.resulttype) {
-        if ($result.style.display === 'block') {
-          visibleResults++;
-        } else if (index < (visibleResults + this.numberOfSearchResults)) {
-          $result.style.display = 'block';
-        }
+      // item is not a search result, skip it
+      if (!$result.dataset.resulttype) return;
+
+      if ($result.style.display === 'block') {
+        visibleResults++;
+      } else if (index < (visibleResults + this.numberOfSearchResults)) {
+        $result.style.display = 'block';
       }
     }, this);
 
@@ -311,22 +312,16 @@
   };
 
   SpotifyRemoteClient.prototype.handleAlbumsResultClick = function(target) {
-    var spotifyUrl = target.dataset.spotifyurl;
-    var lookupUrl  = 'http://ws.spotify.com/lookup/1/.json?uri=' + spotifyUrl + '&extras=track';
-
     this.getFromSpotify(
-      lookupUrl,
+      'http://ws.spotify.com/lookup/1/.json?uri=' + target.dataset.spotifyurl + '&extras=track',
       this.displayAlbumDetails.bind(this),
       this.displayAlbumDetailError.bind(this)
     );
   };
 
   SpotifyRemoteClient.prototype.handleArtistsResultClick = function(target) {
-    var spotifyUrl = target.dataset.spotifyurl;
-    var lookupUrl  = 'http://ws.spotify.com/lookup/1/.json?uri=' + spotifyUrl + '&extras=album';
-
     this.getFromSpotify(
-      lookupUrl,
+      'http://ws.spotify.com/lookup/1/.json?uri=' + target.dataset.spotifyurl + '&extras=album',
       this.displayArtistDetails.bind(this),
       this.displayArtistDetailError.bind(this)
     );
