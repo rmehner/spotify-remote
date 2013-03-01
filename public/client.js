@@ -442,9 +442,9 @@
   };
 
   SpotifyRemoteClient.prototype.createNoSearchResultElement = function() {
-    var el       = document.createElement('div');
-    el.className = 'no-search-result';
-    el.innerHTML = 'Woah! No search results!';
+    var el         = document.createElement('div');
+    el.className   = 'no-search-result';
+    el.textContent = 'Woah! No search results!';
     return el;
   };
 
@@ -491,7 +491,7 @@
 
   SpotifyRemoteClient.prototype._createSpotifyLink = function(label, url, type) {
     var el                = document.createElement('a');
-    el.innerHTML          = label;
+    el.textContent        = label;
     el.dataset.spotifyurl = url;
     el.dataset.resulttype = type;
 
