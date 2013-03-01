@@ -463,45 +463,37 @@
       'artists': this.createArtistSearchResultElement
     }[type];
 
-    cb(results.map(elementCreator));
+    cb(results.map(elementCreator, this));
   };
 
   SpotifyRemoteClient.prototype.createAlbumSearchResultElement = function(result) {
-    var el                = document.createElement('a');
-    el.innerHTML          = result.artists[0].name + ' - ' + result.name;
-    el.dataset.spotifyurl = result.href;
-    el.dataset.resulttype = 'albums';
-
-    return el;
+    var label = result.artists[0].name + ' - ' + result.name;
+    return this._createSpotifyLink(label, result.href, 'albums');
   };
 
   SpotifyRemoteClient.prototype.createArtistDetailAlbumResults = function(results, cb) {
     var elements = results.map(function(result) {
-      var el                = document.createElement('a');
-      el.innerHTML          = result.album.artist + ' - ' + result.album.name;
-      el.dataset.spotifyurl = result.album.href;
-      el.dataset.resulttype = 'albums';
-
-      return el;
-    });
+      var label = result.album.artist + ' - ' + result.album.name;
+      return this._createSpotifyLink(label, result.album.href, 'albums');
+    }, this);
 
     return cb(elements);
   };
 
   SpotifyRemoteClient.prototype.createTrackSearchResultElement = function(result) {
-    var el                = document.createElement('a');
-    el.innerHTML          = result.artists[0].name + ' - ' + result.name;
-    el.dataset.spotifyurl = result.href;
-    el.dataset.resulttype = 'tracks';
-
-    return el;
+    var label = result.artists[0].name + ' - ' + result.name;
+    return this._createSpotifyLink(label, result.href, 'tracks');
   };
 
   SpotifyRemoteClient.prototype.createArtistSearchResultElement = function(result) {
+    return this._createSpotifyLink(result.name, result.href, 'artists');
+  };
+
+  SpotifyRemoteClient.prototype._createSpotifyLink = function(label, url, type) {
     var el                = document.createElement('a');
-    el.innerHTML          = result.name;
-    el.dataset.spotifyurl = result.href;
-    el.dataset.resulttype = 'artists';
+    el.innerHTML          = label;
+    el.dataset.spotifyurl = url;
+    el.dataset.resulttype = type;
 
     return el;
   };
