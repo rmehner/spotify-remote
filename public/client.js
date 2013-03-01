@@ -158,6 +158,87 @@
     });
   };
 
+  SpotifyRemoteClient.prototype.bindVisibilityEvents = function() {
+    var self                 = this;
+    var bindVisibilityChange = function(eventName, propertyName) {
+      document.addEventListener(eventName, function() {
+        document[propertyName] ? self.disconnect() : self.connect();
+      });
+    };
+
+    if (typeof document.hidden !== 'undefined') {
+      return bindVisibilityChange('visibilitychange', 'hidden');
+    } else if (typeof document.webkitHidden !== 'undefined') {
+      return bindVisibilityChange('webkitvisibilitychange', 'webkitHidden');
+    } else if (typeof document.msHidden !== 'undefined') {
+      return bindVisibilityChange('msvisibilitychange', 'msHidden');
+    }
+
+    if (typeof window.onpagehide !== 'undefined') {
+      window.addEventListener('pagehide', this.disconnect.bind(this));
+      window.addEventListener('pageshow', this.connect.bind(this));
+    }
+  };
+
+  SpotifyRemoteClient.prototype.showCurrentTrack = function(track) {
+    // don't rerender stuff when nothing has changed
+    if (this.currentTrack && this.currentTrack.id === track.id) return;
+
+    this.$('artist').textContent   = track.artist;
+    this.$('name').textContent     = track.name;
+    this.$('duration').textContent = this.formatTime(track.duration);
+    this.$('position').setAttribute('max', track.duration);
+
+    this.currentTrack = track;
+  };
+
+  SpotifyRemoteClient.prototype.showCurrentState = function(state) {
+    if (!this.currentState || this.currentState.position !== state.position) {
+      this.$('played-time').textContent = this.formatTime(state.position);
+
+      if (!this._positionRangeBlocked) this.$('position').value = state.position;
+    }
+
+    if (!this.currentState || this.currentState.state !== state.state) {
+      this.$('current-play-state').textContent = state.state === 'paused' ? 'Play' : 'Pause';
+    }
+
+    if (!this._volumeRangeBlocked && (!this.currentState || this.currentState.volume !== state.volume)) {
+      this.$('current-volume').value = state.volume;
+    }
+
+    this.currentState = state;
+  };
+
+  SpotifyRemoteClient.prototype.showCurrentArtwork = function(artwork) {
+    this.$('artwork').src = 'data:image/png;base64,' + artwork;
+  };
+
+  SpotifyRemoteClient.prototype.emit = function(event, data) {
+    if (this.socket) this.socket.emit(event, data);
+  };
+
+  // jQuery.
+  SpotifyRemoteClient.prototype.$ = function(id) {
+    this.elements[id] = this.elements[id] || document.getElementById(id);
+
+    return this.elements[id];
+  };
+
+  SpotifyRemoteClient.prototype.forEach = function(obj, iterator, context) {
+    Array.prototype.forEach.call(obj, iterator, context);
+  };
+
+  SpotifyRemoteClient.prototype.formatTime = function(totalSeconds) {
+    var minutes = Math.floor(totalSeconds / 60);
+    var seconds = totalSeconds % 60;
+
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    seconds = seconds < 10 ? '0' + seconds : seconds;
+
+    return minutes + ":" + seconds;
+  };
+
   SpotifyRemoteClient.prototype.showMoreResults = function(resultsId) {
     var $results        = document.getElementById(resultsId);
     var $showMoreButton = $results.querySelectorAll('.show-more')[0];
@@ -423,87 +504,6 @@
     el.dataset.resulttype = 'artists';
 
     return el;
-  };
-
-  SpotifyRemoteClient.prototype.bindVisibilityEvents = function() {
-    var self                 = this;
-    var bindVisibilityChange = function(eventName, propertyName) {
-      document.addEventListener(eventName, function() {
-        document[propertyName] ? self.disconnect() : self.connect();
-      });
-    };
-
-    if (typeof document.hidden !== 'undefined') {
-      return bindVisibilityChange('visibilitychange', 'hidden');
-    } else if (typeof document.webkitHidden !== 'undefined') {
-      return bindVisibilityChange('webkitvisibilitychange', 'webkitHidden');
-    } else if (typeof document.msHidden !== 'undefined') {
-      return bindVisibilityChange('msvisibilitychange', 'msHidden');
-    }
-
-    if (typeof window.onpagehide !== 'undefined') {
-      window.addEventListener('pagehide', this.disconnect.bind(this));
-      window.addEventListener('pageshow', this.connect.bind(this));
-    }
-  };
-
-  SpotifyRemoteClient.prototype.showCurrentTrack = function(track) {
-    // don't rerender stuff when nothing has changed
-    if (this.currentTrack && this.currentTrack.id === track.id) return;
-
-    this.$('artist').textContent   = track.artist;
-    this.$('name').textContent     = track.name;
-    this.$('duration').textContent = this.formatTime(track.duration);
-    this.$('position').setAttribute('max', track.duration);
-
-    this.currentTrack = track;
-  };
-
-  SpotifyRemoteClient.prototype.showCurrentState = function(state) {
-    if (!this.currentState || this.currentState.position !== state.position) {
-      this.$('played-time').textContent = this.formatTime(state.position);
-
-      if (!this._positionRangeBlocked) this.$('position').value = state.position;
-    }
-
-    if (!this.currentState || this.currentState.state !== state.state) {
-      this.$('current-play-state').textContent = state.state === 'paused' ? 'Play' : 'Pause';
-    }
-
-    if (!this._volumeRangeBlocked && (!this.currentState || this.currentState.volume !== state.volume)) {
-      this.$('current-volume').value = state.volume;
-    }
-
-    this.currentState = state;
-  };
-
-  SpotifyRemoteClient.prototype.showCurrentArtwork = function(artwork) {
-    this.$('artwork').src = 'data:image/png;base64,' + artwork;
-  };
-
-  SpotifyRemoteClient.prototype.emit = function(event, data) {
-    if (this.socket) this.socket.emit(event, data);
-  };
-
-  // jQuery.
-  SpotifyRemoteClient.prototype.$ = function(id) {
-    this.elements[id] = this.elements[id] || document.getElementById(id);
-
-    return this.elements[id];
-  };
-
-  SpotifyRemoteClient.prototype.forEach = function(obj, iterator, context) {
-    Array.prototype.forEach.call(obj, iterator, context);
-  };
-
-  SpotifyRemoteClient.prototype.formatTime = function(totalSeconds) {
-    var minutes = Math.floor(totalSeconds / 60);
-    var seconds = totalSeconds % 60;
-
-    minutes = minutes < 10 ? '0' + minutes : minutes;
-    seconds = seconds < 10 ? '0' + seconds : seconds;
-
-    return minutes + ":" + seconds;
   };
 
   new SpotifyRemoteClient().init(io);
