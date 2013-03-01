@@ -240,22 +240,25 @@
   };
 
   SpotifyRemoteClient.prototype.showMoreResults = function(resultsId) {
-    var $results        = document.getElementById(resultsId);
-    var $showMoreButton = $results.querySelector('.show-more');
-    var visibleResults  = 0;
+    var $results          = document.getElementById(resultsId);
+    var $showMoreButton   = $results.querySelector('.show-more');
+    var visibleResults    = 0;
+    var moreResultsToShow = false;
 
     this.forEach($results.children, function($result, index) {
-      // item is not a search result, skip it
-      if (!$result.dataset.resulttype) return;
+      // skip when item is not a search result or we are already done and can return early
+      if (!$result.dataset.resulttype || moreResultsToShow) return;
 
       if ($result.style.display === 'block') {
         visibleResults++;
       } else if (index < (visibleResults + this.numberOfSearchResults)) {
         $result.style.display = 'block';
+      } else {
+        moreResultsToShow = true;
       }
     }, this);
 
-    if ($results.children.length === visibleResults + this.numberOfSearchResults) {
+    if (!moreResultsToShow) {
       $showMoreButton.style.display = 'none';
     }
   };
