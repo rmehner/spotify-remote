@@ -371,11 +371,8 @@
   };
 
   SpotifyRemoteClient.prototype.displayAlbumDetailError = function(error) {
-    var $albumDetail         = document.getElementById('album-detail-album');
-    $albumDetail.textContent = error;
-
-    var $albumTracks         = document.getElementById('album-detail-tracks');
-    $albumTracks.textContent = '';
+    document.getElementById('album-detail-album').textContent  = error;
+    document.getElementById('album-detail-tracks').textContent = '';
 
     this.showPage('album-detail', {savePage: true});
   };
