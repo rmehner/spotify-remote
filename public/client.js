@@ -8,6 +8,7 @@
     this._canTouchThis         = 'ontouchstart' in window || 'createTouch' in document;
     this._volumeRangeBlocked   = false;
     this._positionRangeBlocked = false;
+    this._volumeMuted          = false;
     this._sendPosition         = false;
     this._rememberedPosition   = 0;
   };
@@ -74,6 +75,10 @@
     // volume control
     this.$('current-volume').addEventListener('change', function(event) {
       self.emit('setVolume', event.target.value);
+
+      if (self._volumeMuted) {
+        self._volumeMuted = false;
+      }
     });
 
     this.$('current-volume').addEventListener(this._canTouchThis ? 'touchstart' : 'mousedown', function() {
@@ -82,6 +87,16 @@
 
     this.$('current-volume').addEventListener(this._canTouchThis ? 'touchend' : 'mouseup', function() {
       self._volumeRangeBlocked = false;
+    });
+
+    this.$('mute-unmute').addEventListener(this._canTouchThis ? 'touchstart' : 'click', function(event) {
+      if (self._volumeMuted) {
+        self.emit('unmuteVolume');
+        self._volumeMuted = false;
+      } else {
+        self.emit('muteVolume');
+        self._volumeMuted = true;
+      }
     });
 
     // position control
@@ -205,6 +220,8 @@
 
     if (!this._volumeRangeBlocked && (!this.currentState || this.currentState.volume !== state.volume)) {
       this.$('current-volume').value = state.volume;
+
+      this.$('mute-unmute').src = state.volume === 0 ? 'mute-icon.png' : 'volume-icon.png';
     }
 
     this.currentState = state;

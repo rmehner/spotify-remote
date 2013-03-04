@@ -136,6 +136,46 @@ describe('SpotifyRemoteServer', function() {
       });
     });
 
+    it ('sends the current state on the sockets "muteVolume" event', function(done) {
+      var state = {volume: 0, position: 13.37, state: 'paused'};
+      spotify.getState.callsArgWith(0, null, state);
+
+      server = new SpotifyRemoteServer(io, spotify);
+      server.handleConnection(socket);
+
+      var originalMuteVolume = spotify.muteVolume;
+      spotify.muteVolume = function(cb) { cb.call(server); };
+
+      socket.trigger('muteVolume');
+
+      process.nextTick(function() {
+        assert.equal(emitSpy.withArgs('currentState').callCount, 2);
+
+        spotify.muteVolume = originalMuteVolume;
+        done();
+      });
+    });
+
+    it ('sends the current state on the sockets "unmuteVolume" event', function(done) {
+      var state = {volume: 100, position: 13.37, state: 'paused'};
+      spotify.getState.callsArgWith(0, null, state);
+
+      server = new SpotifyRemoteServer(io, spotify);
+      server.handleConnection(socket);
+
+      var originalUnmuteVolume = spotify.unmuteVolume;
+      spotify.unmuteVolume = function(cb) { cb.call(server); };
+
+      socket.trigger('unmuteVolume');
+
+      process.nextTick(function() {
+        assert.equal(emitSpy.withArgs('currentState').callCount, 2);
+
+        spotify.unmuteVolume = originalUnmuteVolume;
+        done();
+      });
+    });
+
     it('sends the current state and track on the sockets "next" event', function(done) {
       var state = {volume: 100, position: 13.37, state: 'paused'};
       spotify.getState.callsArgWith(0, null, state);

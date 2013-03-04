@@ -230,6 +230,18 @@ input[type="range"]::-ms-track {
   right: 0.2em;
 }
 
+#current-volume {
+  width: 90%;
+  margin-left: 1em;
+  height: 16px;
+}
+
+.volume-icon {
+  height: 16px;
+  width: 16px;
+  float: left;
+}
+
 /* --- remote appearance --- */
 
 .remote-wrapper {
