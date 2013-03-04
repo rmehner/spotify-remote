@@ -76,9 +76,7 @@
     this.$('current-volume').addEventListener('change', function(event) {
       self.emit('setVolume', event.target.value);
 
-      if (self._volumeMuted) {
-        self._volumeMuted = false;
-      }
+      self._volumeMuted = false;
     });
 
     this.$('current-volume').addEventListener(this._canTouchThis ? 'touchstart' : 'mousedown', function() {
@@ -89,7 +87,7 @@
       self._volumeRangeBlocked = false;
     });
 
-    this.$('mute-unmute').addEventListener(this._canTouchThis ? 'touchstart' : 'click', function(event) {
+    this.$('mute-unmute').addEventListener(this._canTouchThis ? 'touchstart' : 'click', function() {
       if (self._volumeMuted) {
         self.emit('unmuteVolume');
         self._volumeMuted = false;
