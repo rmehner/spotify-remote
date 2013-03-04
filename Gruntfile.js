@@ -46,7 +46,7 @@ module.exports = function(grunt) {
           }
         },
         files: {
-          src: ['public/**/*.js']
+          src: ['public/*.js', '!public/html5slider.js']
         }
       }
     },
