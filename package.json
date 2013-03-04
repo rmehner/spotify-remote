@@ -23,7 +23,7 @@
     "spotify-node-applescript": "~0.2.1"
   },
   "devDependencies": {
-    "sinon": "~1.5.2",
+    "sinon": "~1.6.0",
     "mocha": "~1.8.1",
     "grunt": "~0.4.0",
     "grunt-contrib-jshint": "~0.2.0",
