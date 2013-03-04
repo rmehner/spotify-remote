@@ -90,7 +90,7 @@
       self._positionRangeBlocked = true;
     });
 
-    this.$('position').addEventListener(this._canTouchThis ? 'touchend' : 'mouseup', function(event) {
+    this.$('position').addEventListener(this._canTouchThis ? 'touchend' : 'mouseup', function() {
       self._sendPosition = true;
     });
 
