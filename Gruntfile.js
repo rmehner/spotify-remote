@@ -12,8 +12,7 @@ module.exports = function(grunt) {
         undef: true,
         trailing: true,
         unused: true,
-        indent: 2,
-        white: false
+        indent: 2
       },
       with_node_options: {
         options: {
