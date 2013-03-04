@@ -3,6 +3,18 @@
 module.exports = function(grunt) {
   grunt.initConfig({
     jshint: {
+      options: {
+        forin: true,
+        noarg: true,
+        noempty: true,
+        eqeqeq: true,
+        strict: true,
+        undef: true,
+        trailing: true,
+        unused: true,
+        indent: 2,
+        white: false
+      },
       with_node_options: {
         options: {
           node: true
