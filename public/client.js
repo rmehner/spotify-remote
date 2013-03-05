@@ -8,7 +8,6 @@
     this._canTouchThis         = 'ontouchstart' in window || 'createTouch' in document;
     this._volumeRangeBlocked   = false;
     this._positionRangeBlocked = false;
-    this._volumeMuted          = false;
     this._sendPosition         = false;
     this._rememberedPosition   = 0;
   };
@@ -75,8 +74,6 @@
     // volume control
     this.$('current-volume').addEventListener('change', function(event) {
       self.emit('setVolume', event.target.value);
-
-      self._volumeMuted = false;
     });
 
     this.$('current-volume').addEventListener(this._canTouchThis ? 'touchstart' : 'mousedown', function() {
@@ -88,13 +85,7 @@
     });
 
     this.$('mute-unmute').addEventListener(this._canTouchThis ? 'touchstart' : 'click', function() {
-      if (self._volumeMuted) {
-        self.emit('unmuteVolume');
-        self._volumeMuted = false;
-      } else {
-        self.emit('muteVolume');
-        self._volumeMuted = true;
-      }
+      self.emit('muteUnmute');
     });
 
     // position control
@@ -216,10 +207,14 @@
       this.$('current-play-state').textContent = state.state === 'paused' ? 'Play' : 'Pause';
     }
 
-    if (!this._volumeRangeBlocked && (!this.currentState || this.currentState.volume !== state.volume)) {
+    if (!this._volumeRangeBlocked && (!this.currentState || (this.currentState.muted !== state.muted || this.currentState.volume !== state.volume))) {
       this.$('current-volume').value = state.volume;
 
-      this.$('mute-unmute').src = state.volume === 0 ? 'mute-icon.png' : 'volume-icon.png';
+      if (state.muted) {
+        this.$('mute-unmute').src = 'mute-icon.png';
+      } else {
+        this.$('mute-unmute').src = state.volume === 0 ? 'novolume-icon.png' : 'volume-icon.png';
+      }
     }
 
     this.currentState = state;

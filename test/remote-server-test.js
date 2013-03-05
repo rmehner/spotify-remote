@@ -136,44 +136,30 @@ describe('SpotifyRemoteServer', function() {
       });
     });
 
-    it ('sends the current state on the sockets "muteVolume" event', function(done) {
+    it('sends the current state with mute state on the sockets "muteUnmute" event', function() {
       var state = {volume: 0, position: 13.37, state: 'paused'};
       spotify.getState.callsArgWith(0, null, state);
 
       server = new SpotifyRemoteServer(io, spotify);
       server.handleConnection(socket);
 
-      var originalMuteVolume = spotify.muteVolume;
-      spotify.muteVolume = function(cb) { cb.call(server); };
-
-      socket.trigger('muteVolume');
-
-      process.nextTick(function() {
-        assert.equal(emitSpy.withArgs('currentState').callCount, 2);
-
-        spotify.muteVolume = originalMuteVolume;
-        done();
-      });
-    });
-
-    it ('sends the current state on the sockets "unmuteVolume" event', function(done) {
-      var state = {volume: 100, position: 13.37, state: 'paused'};
-      spotify.getState.callsArgWith(0, null, state);
-
-      server = new SpotifyRemoteServer(io, spotify);
-      server.handleConnection(socket);
-
+      var originalMuteVolume   = spotify.muteVolume;
       var originalUnmuteVolume = spotify.unmuteVolume;
+      spotify.muteVolume = function(cb) { cb.call(server); };
       spotify.unmuteVolume = function(cb) { cb.call(server); };
 
-      socket.trigger('unmuteVolume');
+      socket.trigger('muteUnmute');
 
-      process.nextTick(function() {
-        assert.equal(emitSpy.withArgs('currentState').callCount, 2);
+      assert(emitSpy.lastCall.args[1].muted);
 
-        spotify.unmuteVolume = originalUnmuteVolume;
-        done();
-      });
+      socket.trigger('muteUnmute');
+
+      assert(!emitSpy.lastCall.args[1].muted);
+
+      assert.equal(emitSpy.withArgs('currentState').callCount, 3);
+
+      spotify.muteVolume = originalMuteVolume;
+      spotify.unmuteVolume = originalUnmuteVolume;
     });
 
     it('sends the current state and track on the sockets "next" event', function(done) {
