@@ -84,6 +84,10 @@
       self._volumeRangeBlocked = false;
     });
 
+    this.$('mute-unmute').addEventListener(this._canTouchThis ? 'touchstart' : 'click', function() {
+      self.emit('muteUnmute');
+    });
+
     // position control
     this.$('position').addEventListener(this._canTouchThis ? 'touchstart' : 'mousedown', function() {
       clearInterval(self._positionInterval);
@@ -203,8 +207,14 @@
       this.$('current-play-state').textContent = state.state === 'paused' ? 'Play' : 'Pause';
     }
 
-    if (!this._volumeRangeBlocked && (!this.currentState || this.currentState.volume !== state.volume)) {
+    if (!this._volumeRangeBlocked && (!this.currentState || (this.currentState.muted !== state.muted || this.currentState.volume !== state.volume))) {
       this.$('current-volume').value = state.volume;
+
+      if (state.muted) {
+        this.$('mute-unmute').src = 'mute-icon.png';
+      } else {
+        this.$('mute-unmute').src = state.volume === 0 ? 'novolume-icon.png' : 'volume-icon.png';
+      }
     }
 
     this.currentState = state;
