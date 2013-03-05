@@ -136,6 +136,32 @@ describe('SpotifyRemoteServer', function() {
       });
     });
 
+    it('sends the current state with mute state on the sockets "muteUnmute" event', function() {
+      var state = {volume: 0, position: 13.37, state: 'paused'};
+      spotify.getState.callsArgWith(0, null, state);
+
+      server = new SpotifyRemoteServer(io, spotify);
+      server.handleConnection(socket);
+
+      var originalMuteVolume   = spotify.muteVolume;
+      var originalUnmuteVolume = spotify.unmuteVolume;
+      spotify.muteVolume = function(cb) { cb.call(server); };
+      spotify.unmuteVolume = function(cb) { cb.call(server); };
+
+      socket.trigger('muteUnmute');
+
+      assert(emitSpy.lastCall.args[1].muted);
+
+      socket.trigger('muteUnmute');
+
+      assert(!emitSpy.lastCall.args[1].muted);
+
+      assert.equal(emitSpy.withArgs('currentState').callCount, 3);
+
+      spotify.muteVolume = originalMuteVolume;
+      spotify.unmuteVolume = originalUnmuteVolume;
+    });
+
     it('sends the current state and track on the sockets "next" event', function(done) {
       var state = {volume: 100, position: 13.37, state: 'paused'};
       spotify.getState.callsArgWith(0, null, state);
