@@ -96,7 +96,7 @@ describe('SpotifyRemoteServer', function() {
       assert(emitSpy.calledWith('currentArtwork', artworkBuffer.toString('base64')));
     });
 
-    it('sends the current state on the sockets "volumeUp" event', function(done) {
+    it('sends the current state on the sockets "volumeUp" event', function() {
       var state = {volume: 100, position: 13.37, state: 'paused'};
       spotify.getState.callsArgWith(0, null, state);
 
@@ -108,15 +108,12 @@ describe('SpotifyRemoteServer', function() {
 
       socket.trigger('volumeUp');
 
-      process.nextTick(function() {
-        assert.equal(emitSpy.withArgs('currentState').callCount, 2);
+      assert.equal(emitSpy.withArgs('currentState').callCount, 2);
 
-        spotify.volumeUp = originalVolumeUp;
-        done();
-      });
+      spotify.volumeUp = originalVolumeUp;
     });
 
-    it('sends the current state on the sockets "volumeDown" event', function(done) {
+    it('sends the current state on the sockets "volumeDown" event', function() {
       var state = {volume: 100, position: 13.37, state: 'paused'};
       spotify.getState.callsArgWith(0, null, state);
 
@@ -128,12 +125,9 @@ describe('SpotifyRemoteServer', function() {
 
       socket.trigger('volumeDown');
 
-      process.nextTick(function() {
-        assert.equal(emitSpy.withArgs('currentState').callCount, 2);
+      assert.equal(emitSpy.withArgs('currentState').callCount, 2);
 
-        spotify.volumeDown = originalVolumeDown;
-        done();
-      });
+      spotify.volumeDown = originalVolumeDown;
     });
 
     it('sends the current state with mute state on the sockets "muteUnmute" event', function() {
@@ -162,7 +156,7 @@ describe('SpotifyRemoteServer', function() {
       spotify.unmuteVolume = originalUnmuteVolume;
     });
 
-    it('sends the current state and track on the sockets "next" event', function(done) {
+    it('sends the current state and track on the sockets "next" event', function() {
       var state = {volume: 100, position: 13.37, state: 'paused'};
       spotify.getState.callsArgWith(0, null, state);
 
@@ -177,16 +171,13 @@ describe('SpotifyRemoteServer', function() {
 
       socket.trigger('next');
 
-      process.nextTick(function() {
-        assert.equal(emitSpy.withArgs('currentState').callCount, 2);
-        assert.equal(emitSpy.withArgs('currentTrack').callCount, 2);
+      assert.equal(emitSpy.withArgs('currentState').callCount, 2);
+      assert.equal(emitSpy.withArgs('currentTrack').callCount, 2);
 
-        spotify.next = originalNext;
-        done();
-      });
+      spotify.next = originalNext;
     });
 
-    it('sends the current state and track on the sockets "previous" event', function(done) {
+    it('sends the current state and track on the sockets "previous" event', function() {
       var state = {volume: 100, position: 13.37, state: 'paused'};
       spotify.getState.callsArgWith(0, null, state);
 
@@ -201,16 +192,13 @@ describe('SpotifyRemoteServer', function() {
 
       socket.trigger('previous');
 
-      process.nextTick(function() {
-        assert.equal(emitSpy.withArgs('currentState').callCount, 2);
-        assert.equal(emitSpy.withArgs('currentTrack').callCount, 2);
+      assert.equal(emitSpy.withArgs('currentState').callCount, 2);
+      assert.equal(emitSpy.withArgs('currentTrack').callCount, 2);
 
-        spotify.previous = originalPrevious;
-        done();
-      });
+      spotify.previous = originalPrevious;
     });
 
-    it('sends the current state and track on the sockets "playPause" event', function(done) {
+    it('sends the current state and track on the sockets "playPause" event', function() {
       var state = {volume: 100, position: 13.37, state: 'paused'};
       spotify.getState.callsArgWith(0, null, state);
 
@@ -225,13 +213,10 @@ describe('SpotifyRemoteServer', function() {
 
       socket.trigger('playPause');
 
-      process.nextTick(function() {
-        assert.equal(emitSpy.withArgs('currentState').callCount, 2);
-        assert.equal(emitSpy.withArgs('currentTrack').callCount, 2);
+      assert.equal(emitSpy.withArgs('currentState').callCount, 2);
+      assert.equal(emitSpy.withArgs('currentTrack').callCount, 2);
 
-        spotify.playPause = originalPlayPause;
-        done();
-      });
+      spotify.playPause = originalPlayPause;
     });
   });
 
