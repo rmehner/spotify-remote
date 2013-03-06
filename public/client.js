@@ -8,7 +8,9 @@
     this._canTouchThis         = 'ontouchstart' in window || 'createTouch' in document;
     this._volumeRangeBlocked   = false;
     this._positionRangeBlocked = false;
+    this._sendVolume           = false;
     this._sendPosition         = false;
+    this._rememberedVolume     = 0;
     this._rememberedPosition   = 0;
   };
 
@@ -73,15 +75,26 @@
 
     // volume control
     this.$('current-volume').addEventListener('change', function(event) {
-      self.emit('setVolume', event.target.value);
+      clearInterval(self._volumeInterval);
+      self._rememberedVolume = event.target.value;
+
+      self._volumeInterval = setInterval(function() {
+        if (self._sendVolume) {
+          self.emit('setVolume', self._rememberedVolume);
+          self._volumeRangeBlocked = false;
+          self._sendVolume         = false;
+          clearInterval(self._volumeInterval);
+        }
+      }, 100);
     });
 
     this.$('current-volume').addEventListener(this._canTouchThis ? 'touchstart' : 'mousedown', function() {
+      clearInterval(self._volumeInterval);
       self._volumeRangeBlocked = true;
     });
 
     this.$('current-volume').addEventListener(this._canTouchThis ? 'touchend' : 'mouseup', function() {
-      self._volumeRangeBlocked = false;
+      self._sendVolume = true;
     });
 
     this.$('mute-unmute').addEventListener(this._canTouchThis ? 'touchstart' : 'click', function() {
