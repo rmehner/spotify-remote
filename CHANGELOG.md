@@ -7,6 +7,7 @@
 * Fix position control for Android's Chrome
 * Allow muting/unmuting the volume
 * Better UI for volume control
+* Search for tracks/albums/artists
 
 ## 0.0.8 (February 11th, 2013)
 
