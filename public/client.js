@@ -207,7 +207,10 @@
       this.$('current-play-state').textContent = state.state === 'paused' ? 'Play' : 'Pause';
     }
 
-    if (!this._volumeRangeBlocked && (!this.currentState || (this.currentState.muted !== state.muted || this.currentState.volume !== state.volume))) {
+    if (
+      !this._volumeRangeBlocked && (!this.currentState ||
+      (this.currentState.muted !== state.muted || this.currentState.volume !== state.volume))
+    ) {
       this.$('current-volume').value = state.volume;
 
       if (state.muted) {
