@@ -6,12 +6,9 @@
     this.elements              = [];
     this.numberOfSearchResults = 3;
     this._canTouchThis         = 'ontouchstart' in window || 'createTouch' in document;
-    this._volumeRangeBlocked   = false;
-    this._positionRangeBlocked = false;
-    this._sendVolume           = false;
-    this._sendPosition         = false;
-    this._rememberedVolume     = 0;
-    this._rememberedPosition   = 0;
+    this._rangeInputBlocked    = false;
+    this._sendRangeInput       = false;
+    this._rememberedRangeInput = 0;
   };
 
   SpotifyRemoteClient.prototype.init = function(io) {
@@ -74,56 +71,14 @@
     });
 
     // volume control
-    this.$('current-volume').addEventListener('change', function(event) {
-      clearInterval(self._volumeInterval);
-      self._rememberedVolume = event.target.value;
-
-      self._volumeInterval = setInterval(function() {
-        if (self._sendVolume) {
-          self.emit('setVolume', self._rememberedVolume);
-          self._volumeRangeBlocked = false;
-          self._sendVolume         = false;
-          clearInterval(self._volumeInterval);
-        }
-      }, 100);
-    });
-
-    this.$('current-volume').addEventListener(this._canTouchThis ? 'touchstart' : 'mousedown', function() {
-      clearInterval(self._volumeInterval);
-      self._volumeRangeBlocked = true;
-    });
-
-    this.$('current-volume').addEventListener(this._canTouchThis ? 'touchend' : 'mouseup', function() {
-      self._sendVolume = true;
-    });
+    this.bindRangeInputEvents('current-volume', 'setVolume');
 
     this.$('mute-unmute').addEventListener(this._canTouchThis ? 'touchstart' : 'click', function() {
       self.emit('muteUnmute');
     });
 
     // position control
-    this.$('position').addEventListener(this._canTouchThis ? 'touchstart' : 'mousedown', function() {
-      clearInterval(self._positionInterval);
-      self._positionRangeBlocked = true;
-    });
-
-    this.$('position').addEventListener(this._canTouchThis ? 'touchend' : 'mouseup', function() {
-      self._sendPosition = true;
-    });
-
-    this.$('position').addEventListener('change', function(event) {
-      clearInterval(self._positionInterval);
-      self._rememberedPosition = event.target.value;
-
-      self._positionInterval = setInterval(function() {
-        if (self._sendPosition) {
-          self.emit('jumpTo', self._rememberedPosition);
-          self._positionRangeBlocked = false;
-          self._sendPosition         = false;
-          clearInterval(self._positionInterval);
-        }
-      }, 100);
-    });
+    this.bindRangeInputEvents('position', 'jumpTo');
 
     this.$('new-search').addEventListener('submit', function(event) {
       event.preventDefault();
@@ -172,6 +127,33 @@
       event.preventDefault();
 
       self.showMoreResults(event.target.rel);
+    });
+  };
+
+  SpotifyRemoteClient.prototype.bindRangeInputEvents = function(id, emitName) {
+    var self = this;
+
+    this.$(id).addEventListener('change', function(event) {
+      clearInterval(self._rangeInputInterval);
+      self._rememberedRangeInput = event.target.value;
+
+      self._rangeInputInterval = setInterval(function() {
+        if (self._sendRangeInput) {
+          self.emit(emitName, self._rememberedRangeInput);
+          self._rangeInputBlocked = false;
+          self._sendRangeInput    = false;
+          clearInterval(self._rangeInputInterval);
+        }
+      }, 100);
+    });
+
+    this.$(id).addEventListener(this._canTouchThis ? 'touchstart' : 'mousedown', function() {
+      clearInterval(self._rangeInputInterval);
+      self._rangeInputBlocked = true;
+    });
+
+    this.$(id).addEventListener(this._canTouchThis ? 'touchend' : 'mouseup', function() {
+      self._sendRangeInput = true;
     });
   };
 
