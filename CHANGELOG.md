@@ -5,6 +5,8 @@
 * Stop listening on the socket, when page is not visible
 * Allow jumping to a position with a single tap/click
 * Fix position control for Android's Chrome
+* Allow muting/unmuting the volume
+* Better UI for volume control
 
 ## 0.0.8 (February 11th, 2013)
 
