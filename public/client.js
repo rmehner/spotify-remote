@@ -353,10 +353,10 @@
   };
 
   SpotifyRemoteClient.prototype.displayAlbumDetails = function(albumDetails) {
-    var $oldTracks      = document.getElementById('album-detail-tracks');
-    var $newTracks      = document.createElement('div');
-    $newTracks.id       = 'album-detail-tracks';
-    var $albumDetail    = document.getElementById('album-detail-album');
+    var $oldTracks   = document.getElementById('album-detail-tracks');
+    var $newTracks   = document.createElement('div');
+    $newTracks.id    = 'album-detail-tracks';
+    var $albumDetail = document.getElementById('album-detail-album');
 
     this.createSearchResultElements('tracks', albumDetails.album.tracks, function(elements) {
       elements.map(function(el) {
