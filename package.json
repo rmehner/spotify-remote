@@ -27,7 +27,6 @@
     "mocha": "~1.8.1",
     "grunt": "~0.4.0",
     "grunt-contrib-jshint": "~0.2.0",
-    // released version is not 0.10.x compatible, see: https://github.com/yaymukund/grunt-simple-mocha/pull/28
     "grunt-simple-mocha": "git://github.com/yaymukund/grunt-simple-mocha.git#7d1cb9bfd8"
   },
   "scripts": {
